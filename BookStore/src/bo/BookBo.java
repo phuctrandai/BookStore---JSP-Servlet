@@ -2,6 +2,7 @@ package bo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import bean.Book;
 import dao.BookDao;
@@ -11,7 +12,7 @@ public class BookBo {
 	 * Fields
 	 */
 	private final BookDao bookDao;
-	private ArrayList<Book> bookList;
+	private HashMap<String, Book> bookList;
 	
 	/**
 	 * Contructors
@@ -26,7 +27,7 @@ public class BookBo {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public ArrayList<Book> getBookList(int pageNumber, int bookPerPage) throws ClassNotFoundException, SQLException {
+	public HashMap<String, Book> getBookList(int pageNumber, int bookPerPage) throws ClassNotFoundException, SQLException {
 		bookList =  bookDao.getBookList(pageNumber, bookPerPage);
 		return bookList;
 	}
@@ -68,7 +69,7 @@ public class BookBo {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public ArrayList<Book> getBooksByCategoryId(int pageNumber, int bookPerPage, String categoryId) throws ClassNotFoundException, SQLException {
+	public HashMap<String, Book> getBooksByCategoryId(int pageNumber, int bookPerPage, String categoryId) throws ClassNotFoundException, SQLException {
 		bookList = bookDao.getBooksByCategoryId(pageNumber, categoryId, bookPerPage);
 		return bookList;
 	}

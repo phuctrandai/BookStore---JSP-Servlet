@@ -1,5 +1,4 @@
 <%@page import="bean.Cart"%>
-<%@page import="java.util.HashMap"%>
 <%@page import="bean.Book"%>
 <%@page import="bean.Item"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"

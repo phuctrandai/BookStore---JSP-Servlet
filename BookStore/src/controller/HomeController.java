@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +46,7 @@ public class HomeController extends HttpServlet {
 		// Get Books ======================
 		String categoryId = request.getParameter("categoryId");
 		int pageNumber = 1;
-		ArrayList<Book> bookList = null;
+		HashMap<String, Book> bookList = null;
 		
 		if(request.getParameter("pageNumber") != null) {
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));

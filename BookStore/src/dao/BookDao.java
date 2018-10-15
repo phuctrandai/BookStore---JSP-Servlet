@@ -3,7 +3,8 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
+
 import bean.Book;
 
 public class BookDao {
@@ -26,7 +27,7 @@ public class BookDao {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public ArrayList<Book> getBookList(int pageNumber, int bookPerPage) throws ClassNotFoundException, SQLException {
+	public HashMap<String, Book> getBookList(int pageNumber, int bookPerPage) throws ClassNotFoundException, SQLException {
 		connectDB.Connect();
 		
 		PreparedStatement pStatement = connectDB.connection.prepareStatement("SELECT * FROM [dbo].[GetBookOfPage] (?, ?)");
@@ -34,7 +35,7 @@ public class BookDao {
 		pStatement.setInt(2, bookPerPage);
 		ResultSet resultSet = pStatement.executeQuery();
 		
-		ArrayList<Book> bookList = new ArrayList<>();
+		HashMap<String, Book> bookList = new HashMap<String, Book>();
 		
 		while(resultSet.next()) {
 			Book book = new Book();
@@ -47,7 +48,7 @@ public class BookDao {
 			book.setQuantity(resultSet.getLong("SoLuong"));
 			book.setInputDate(resultSet.getDate("NgayNhap"));
 			book.setCategoryId(resultSet.getString("MaLoai"));
-			bookList.add(book);
+			bookList.put(book.getId(), book);
 		}
 		resultSet.close();
 		connectDB.Disconnect();
@@ -95,7 +96,7 @@ public class BookDao {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public ArrayList<Book> getBooksByCategoryId(int pageNumber, String categoryId, int bookPerPage) throws ClassNotFoundException, SQLException {
+	public HashMap<String, Book> getBooksByCategoryId(int pageNumber, String categoryId, int bookPerPage) throws ClassNotFoundException, SQLException {
 		connectDB.Connect();
 		
 		PreparedStatement pStatement = connectDB.connection.prepareStatement("SELECT * FROM [dbo].[GetBookOfPageByCategory] (?, ?, ?)");
@@ -104,7 +105,7 @@ public class BookDao {
 		pStatement.setInt(3, bookPerPage);
 		ResultSet resultSet = pStatement.executeQuery();
 		
-		ArrayList<Book> bookList = new ArrayList<Book>();
+		HashMap<String, Book> bookList = new HashMap<String, Book>();
 		
 		while(resultSet.next()) {
 			Book book = new Book();
@@ -117,7 +118,7 @@ public class BookDao {
 			book.setQuantity(resultSet.getLong("SoLuong"));
 			book.setInputDate(resultSet.getDate("NgayNhap"));
 			book.setCategoryId(resultSet.getString("MaLoai"));
-			bookList.add(book);
+			bookList.put(book.getId(), book);
 		}
 		resultSet.close();
 		connectDB.Disconnect();

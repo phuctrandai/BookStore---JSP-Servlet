@@ -37,5 +37,8 @@
 	
 	<jsp:include page="content.jsp"></jsp:include>
 	
+	<!-- Scroll to top -->
+	<button onclick="scrollToTop()" id="scrollToTopBtn" class="btn btn-danger" title="Về đầu trang">Top</button>
+	
 </body>
 </html>
