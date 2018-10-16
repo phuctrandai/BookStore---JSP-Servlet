@@ -7,9 +7,9 @@
 			<h3 style="padding-top: 3">TÌM KIẾM:</h3>
 		</div>
 		<form id="search_box" action="home" method="post" style="display: inline-block" class="form-inline col-sm-10">
-			<input type="hidden" name="command" value="search">
-			<input type="text" name="keyWord" id="keyWord" class='form-control' placeholder="Từ khóa ..." maxlength="100" style="width: 80%">
-			<input type="submit" name="searchBtn" id="searchBtn" class="form-control btn btn-secondary" value="Search" title="Tìm kiếm sách/quà tặng- Bạn gõ font Unicode hoặc tiếng Việt không dấu"
+			<input type="hidden" name="command" id="command" value="search">
+			<input type="text" name="keyWord" id="keyWord" class='form-control mr-sm-3' placeholder="Từ khóa ..." maxlength="100" value="" style="width: 70%">
+			<input type="submit" name="searchBtn" id="searchBtn" class="form-control btn btn-secondary mr-sm-3" value="Search" title="Tìm kiếm sách/quà tặng- Bạn gõ font Unicode hoặc tiếng Việt không dấu"
 				  onclick="" style="">
 			<select id="optionSearch" class="form-control" name="optionSearch" style="font-weight: bold; color: #333; cursor: pointer;">
 	
@@ -19,9 +19,6 @@
 					
 			</select>
 		</form>
-<!-- 		<div class="form-group col-sm-2" style="display: inline-block" > -->
-			
-<!-- 		</div> -->
 	</div>
 	<hr>
 	

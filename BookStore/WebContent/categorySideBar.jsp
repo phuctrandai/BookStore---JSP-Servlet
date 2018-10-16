@@ -2,7 +2,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<!DOCTYPE html>
+
 	<!-- Category side bar -->
 	<%
 	ArrayList<Loai> loaiList = (ArrayList<Loai>) request.getAttribute("loaiList");

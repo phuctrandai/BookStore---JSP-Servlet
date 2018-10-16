@@ -1,8 +1,8 @@
 package bo;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import bean.Book;
 import dao.BookDao;
@@ -23,7 +23,7 @@ public class BookBo {
 	
 	/**
 	 * Get books
-	 * @return ArrayList<Book>
+	 * @return HashMap<String, Book>
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -45,27 +45,27 @@ public class BookBo {
 	
 	/**
 	 * Find book by name
-	 * @param bookList
 	 * @param bookName
-	 * @return ArrayList<Book>
+	 * @return HashMap<String, Book>
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public ArrayList<Book> findByName(ArrayList<Book> bookList, String bookName) {
-		ArrayList<Book> result = null;
-		for(Book b : bookList) {
-			if(b.getName().contains(bookName)) {
-				if(result == null) {
-					result = new ArrayList<Book>();
-				}
-				result.add(b);
-			}
+	public HashMap<String, Book> findByName(String bookName) throws ClassNotFoundException, SQLException {
+		HashMap<String, Book> result = new HashMap<String, Book>();
+		HashMap<String, Book> allBook = bookDao.getBookList();
+
+		for(Map.Entry<String, Book> item : allBook.entrySet()) {
+			if(item.getValue().getName().toLowerCase().contains(bookName.toLowerCase()))
+				result.put(item.getKey(), item.getValue());
 		}
+		
 		return result;
 	}
 	
 	/**
 	 * Get books by category id
 	 * @param categoryId
-	 * @return ArrayList<Book> bookList
+	 * @return HashMap<String, Book> bookList
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */

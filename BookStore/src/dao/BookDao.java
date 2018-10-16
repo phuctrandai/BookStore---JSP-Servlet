@@ -23,17 +23,24 @@ public class BookDao {
 	
 	/**
 	 * Get books from table sach
-	 * @return ArrayList<Book> result
+	 * @return HashMap<String, Book> result
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
 	public HashMap<String, Book> getBookList(int pageNumber, int bookPerPage) throws ClassNotFoundException, SQLException {
 		connectDB.Connect();
 		
-		PreparedStatement pStatement = connectDB.connection.prepareStatement("SELECT * FROM [dbo].[GetBookOfPage] (?, ?)");
-		pStatement.setInt(1, pageNumber);
-		pStatement.setInt(2, bookPerPage);
-		ResultSet resultSet = pStatement.executeQuery();
+		PreparedStatement pStatement;
+		ResultSet resultSet;
+		if(pageNumber > 0) {
+			pStatement = connectDB.connection.prepareStatement("SELECT * FROM [dbo].[GetBookOfPage] (?, ?)");
+			pStatement.setInt(1, pageNumber);
+			pStatement.setInt(2, bookPerPage);
+			resultSet = pStatement.executeQuery();
+		}
+		else {
+			resultSet = connectDB.getTable("Sach");
+		}
 		
 		HashMap<String, Book> bookList = new HashMap<String, Book>();
 		
@@ -53,6 +60,10 @@ public class BookDao {
 		resultSet.close();
 		connectDB.Disconnect();
 		return bookList;
+	}
+	
+	public HashMap<String, Book> getBookList() throws ClassNotFoundException, SQLException {
+		return getBookList(0, 0);
 	}
 	
 	/**
