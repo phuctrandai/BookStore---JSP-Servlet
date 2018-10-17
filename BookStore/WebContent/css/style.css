@@ -1,7 +1,11 @@
 @charset "UTF-8";
 
 body {
+	font-family: 'Oswald', sans-serif;
 	color: #666;
+}
+#headerMenu, #topNav {
+	font-family: 'K2D', sans-serif;
 }
 #scrollToTopBtn {
 	display: none;
@@ -95,6 +99,12 @@ body {
 .book-quantity {
 	float: right;
 }
+
+#cartContent {
+	margin: 30px auto;
+	width: 75%;
+	float: right;
+}
 .itemInfo {
 	margin: 0px;
 	display: inline-block;
@@ -143,3 +153,16 @@ body {
 .add-to-cart:hover img {
 	transform: scale(1.1, 1.1);
 }
+
+/* =============== Login page =============== */
+#loginContent {
+	margin: 30px 18rem 30px 0;
+	width: 50%;
+	float: right;
+}
+
+
+
+
+
+

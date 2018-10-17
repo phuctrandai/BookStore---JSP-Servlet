@@ -33,6 +33,21 @@
 		    </li>
 		    
 		    <li class="nav-item col-xs-12">
+		    	<img alt="icon1.png" src="./images/icon4.png">
+		      	<a class="nav-link" href="cart" title="Giỏ hàng của bạn">Giỏ hàng</a><br>
+		      	<span style="font-size: 14px; font-weight: normal;">Đang có ( <span id="totalItem">
+		      	<%
+		      		if(cart != null) 
+		      			out.print(cart.getTotalItem());
+     				else
+		      			out.print(0);
+		      	%> </span> )
+		      		sản phẩm
+		      	</span><br>
+		      	<div class="nav-item-footer"></div>
+		    </li>
+		    
+		    <li class="nav-item col-xs-12">
 		    	<img alt="icon1.png" src="./images/icon3.png">
 		      	
 		      	<%if(userName == null) {%>
@@ -57,21 +72,6 @@
 				
 	      		<%} %>
 	      		<div class="nav-item-footer"></div>
-		    </li>
-		    
-		    <li class="nav-item col-xs-12">
-		    	<img alt="icon1.png" src="./images/icon4.png">
-		      	<a class="nav-link" href="cart" title="Giỏ hàng của bạn">Giỏ hàng</a><br>
-		      	<span style="font-size: 14px; font-weight: normal;">Đang có ( <span id="totalItem">
-		      	<%
-		      		if(cart != null) 
-		      			out.print(cart.getTotalItem());
-     				else
-		      			out.print(0);
-		      	%> </span> )
-		      		sản phẩm
-		      	</span><br>
-		      	<div class="nav-item-footer"></div>
 		    </li>
 		  </ul>
 		</nav>
@@ -109,6 +109,10 @@
 						
 						<label for="password">Mật khẩu:</label>
 						<input type="password" name="password" id="password" class="form-control"><br>
+						
+						<div>
+							<a href="account">Đăng ký</a>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="hidden" name="command" value="login">

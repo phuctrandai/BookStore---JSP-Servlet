@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import bean.Book;
 import bean.Cart;
+import bean.Loai;
 import bo.BookBo;
+import bo.LoaiBo;
 
 /**
  * Servlet implementation class CartController
@@ -23,6 +26,7 @@ import bo.BookBo;
 public class CartController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private LoaiBo loaiBo = null;
 	private BookBo bookBo = null;
     	
     /**
@@ -31,6 +35,7 @@ public class CartController extends HttpServlet {
     public CartController() {
         super();
         bookBo = new BookBo();
+        loaiBo = new LoaiBo();
     }
 
 	/**
@@ -41,7 +46,16 @@ public class CartController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String command = request.getParameter("command");
 		
-		// Get cart or create if it's null =============
+		// Lấy danh sách loại =================
+		ArrayList<Loai> loaiList = null;
+		try {
+	   		loaiList = loaiBo.getLoai();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		request.setAttribute("loaiList", loaiList);
+		
+		// Kiểm tra giỏ hàng, khỏi tạo nếu chưa có =============
 		Cart cart = (Cart) session.getAttribute("cart");
 		if (cart == null) {
 	        cart = new Cart();
@@ -53,7 +67,7 @@ public class CartController extends HttpServlet {
 		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
 		
 		if(command != null) {
-			// Get book by id
+			// Lấy sách theo mã
 			String bookId = request.getParameter("bookId");
 			Book book = null;
 			try {
@@ -63,14 +77,14 @@ public class CartController extends HttpServlet {
 			}
 			
 			switch (command) {
-			// Insert an item into cart
+			// Thêm một sản phẩm vào giỏ hàng
 			case "add": {
 				cart.addToCart(book);
 				session.setAttribute("cart", cart);
 				request.getRequestDispatcher("cart.jsp").forward(request, response);
 				break;
 			}
-			// Update quantity of the item in cart
+			// Cập nhật số lượng của sản phẩm trong giỏ hàng
 			case "modify": {
 				if(request.getParameter("updateBtn") != null) {
 					int itemQuantity = Integer.parseInt(request.getParameter("itemQuality"));

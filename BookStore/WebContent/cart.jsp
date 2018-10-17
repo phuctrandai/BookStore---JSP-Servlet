@@ -21,32 +21,28 @@
 	<link rel="stylesheet" href="./css/style.css">
 	
 	<style>
-		body {
-			font-family: 'Oswald', sans-serif;
-		}
-		#headerMenu, #topNav {
-			font-family: 'K2D', sans-serif;
-		}
-		#cartContent {
-			margin: 30px auto;
-			width: 80%;	
-		}
+		
 	</style>
 	
 </head>
 <body>
 	
-	<jsp:include page="header.jsp"></jsp:include>
-	
 	<%
-		//session.setAttribute("command", false);
 		Cart cart = (Cart) session.getAttribute("cart");
 		if (cart == null) {
 	        cart = new Cart();
 	        session.setAttribute("cart", cart);
 	    }
+		session.setAttribute("prevPage", "cart");
 	%>
 	
+	<jsp:include page="header.jsp"></jsp:include>
+	
+	<jsp:include page="search.jsp"></jsp:include>
+	
+	<jsp:include page="categorySideBar.jsp"></jsp:include>
+	
+<!-- Cart's content -->
 	<div id="cartContent">
 		<p style="color: #1e7e34; font-size: 2em; font-weight: bold;">Giỏ hàng của bạn:</p>
 		<hr>
@@ -79,7 +75,7 @@
 			<%
 				}
 			%>
-			<!-- Show when cart has no item -->
+<!-- Show when cart has no item -->
 			<tr>
 			<td colspan="2" id="emptyCart" <%if(cart.getTotalItem() > 0) { %>style="visibility:collapse;" <%}%>>
 				<h2 style="display: inline-block">
@@ -91,7 +87,7 @@
 			</td>
 			</tr>
 			<tr>
-			<!-- Show when cart has item -->
+<!-- Show when cart has item -->
 			<td colspan="2" id="hasItem" <%if(cart.getTotalItem() == 0) { %>style="visibility:collapse;"<%}%>>
 				<h2>
 					<span style="color: #F4B344">Tổng cộng:</span>
