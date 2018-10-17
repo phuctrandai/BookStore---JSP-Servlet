@@ -27,29 +27,21 @@ body {
     width: 85%;
 }
 #headerMenu .nav-item {
-	margin-right: 100px;
+	margin-right: 70px;
 	text-align: center;
 }
 #headerMenu .nav-link {
 	color: #000;
 	font-size: 18px;
 	font-weight: bold;
-	transition: 0.5s;
-	border-bottom: 2px solid transparent;
-}
-#headerMenu .nav-link:hover {
-    border-bottom: 2px solid black;
-}
-#headerMenu .nav-link:not(:last-child):hover {
-	border-bottom: 0px solid transparent;
 }
 #headerMenu .nav-item img {
     display: inline-block;
     vertical-align: top;
-    margin: 5px 0;
+    margin: 5px 5px 0px 0px;
 	width: 20px;
 }
-#headerMenu .nav-item a {
+#headerMenu .nav-item .nav-link {
     display: inline-block;
     vertical-align: top;
     padding: 0px;

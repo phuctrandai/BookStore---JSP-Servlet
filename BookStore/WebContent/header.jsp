@@ -6,6 +6,7 @@
 
 	<%
 	Cart cart = (Cart) session.getAttribute("cart");
+	String userName = (String) session.getAttribute("userName");
 	%>
 	
 	<header id="header">
@@ -19,22 +20,48 @@
 		  <ul class="navbar-nav">
 		    <li class="nav-item col-xs-12">
 		    	<img alt="icon1.png" src="./images/icon1.png">
-		      	<a class="nav-link" href="#">Giao hàng<br>24 giờ</a>
+		      	<a class="nav-link" href="#" title="Giao hàng nhanh trong 24 giờ">Giao hàng 24 giờ</a><br>
+		      	<span style="font-size: 11px">ĐT: (028) 3925 0590 - Hotline: 0903 10 14 79</span>
+		      	<div class="nav-item-footer"></div>
 		    </li>
+		    
 		    <li class="nav-item col-xs-12">
 		    	<img alt="icon1.png" src="./images/icon2.png">
-		      	<a class="nav-link" href="#">Đặt hàng<br>Amazon</a>
+		      	<a class="nav-link" href="#" title="Đặt hàng trên Amazon">Đặt hàng Amazon</a><br>
+		      	<span style="font-weight: normal; font-size: 13px;">Nhanh chóng - đảm bảo - tiện lợi</span>
+		      	<div class="nav-item-footer"></div>
 		    </li>
+		    
 		    <li class="nav-item col-xs-12">
 		    	<img alt="icon1.png" src="./images/icon3.png">
+		      	
+		      	<%if(userName == null) {%>
+		      	
 		      	<a class="nav-link" data-toggle="modal" data-target="#loginForm" style="cursor: pointer;">
-		      		Đăng nhập<br>
-		      		<span style="font-weight: normal; font-size: 13px;">Tài khoản và Đơn hàng</span>
-	      		</a>
+		      		Đăng nhập
+	      		</a><br>
+	      		<span style="font-weight: normal; font-size: 13px;">Tài khoản và Đơn hàng</span>
+	      		
+	      		<%} else {%>
+	      		<div class="dropdown" style="display: inline-block;">
+	      			<a class="nav-link dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+			      		<%=userName %>
+		      		</a><br>
+		      		
+		      		<div class="dropdown-menu dropdown-menu-right" style="margin-top: 13px; right: -25px;">
+				    	<a class="dropdown-item" href="#">Tài khoản</a>
+				    	<div class="dropdown-divider"></div>
+					    <a class="dropdown-item" href="account?command=logout">Đăng xuất</a>
+				  	</div>
+				</div>
+				
+	      		<%} %>
+	      		<div class="nav-item-footer"></div>
 		    </li>
+		    
 		    <li class="nav-item col-xs-12">
 		    	<img alt="icon1.png" src="./images/icon4.png">
-		      	<a class="nav-link" href="cart">Giỏ hàng</a><br>
+		      	<a class="nav-link" href="cart" title="Giỏ hàng của bạn">Giỏ hàng</a><br>
 		      	<span style="font-size: 14px; font-weight: normal;">Đang có ( <span id="totalItem">
 		      	<%
 		      		if(cart != null) 
@@ -44,7 +71,7 @@
 		      	%> </span> )
 		      		sản phẩm
 		      	</span><br>
-		      	<span style="font-size: 11px">ĐT: (028) 3925 0590 - Hotline: 0903 10 14 79</span>
+		      	<div class="nav-item-footer"></div>
 		    </li>
 		  </ul>
 		</nav>
@@ -70,28 +97,25 @@
 	<div class="modal modal fade" id="loginForm">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-	
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<h4 class="modal-title">Đăng nhập</h4>
 				</div>
-	
-				<!-- Modal body -->
-				<div class="modal-body">
-					<form class="form">
-						<label class="" for="userName">Tên tài khoản:</label>
+				<form class="form" action="account" method="post">
+					<!-- Modal body -->
+					<div class="modal-body">
+						<label for="userName">Tên tài khoản:</label>
 						<input type="text" name="userName" id="userName" class="form-control"><br>
-						<label class="" for="password">Mật khẩu:</label>
-						<input type="text" name="userName" id="password" class="form-control"><br>
-					</form>
-				</div>
-	
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Thôi</button>
-					<button type="button" class="btn btn-success" id="loginBtn">Đăng nhập</button>
-				</div>
-	
+						
+						<label for="password">Mật khẩu:</label>
+						<input type="password" name="password" id="password" class="form-control"><br>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="command" value="login">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Thôi</button>
+						<button type="submit" class="btn btn-success" id="loginBtn">Đăng nhập</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
