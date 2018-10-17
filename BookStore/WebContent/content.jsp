@@ -30,6 +30,9 @@
 				<label class="card-title" style="color: #000; font-size: 16px; margin: 0px;"><strong><%= item.getValue().getName()%></strong></label><br>
 				<label><b>Giá bán: <span style="color:#6d2524; font-size:medium; font-weight:bold"><%=nf.format(item.getValue().getPrice()) %></span></b></label>
 			</div>
+			<div class="book-col-footer">
+				<p class="book-quantity"><%=item.getValue().getQuantity() %></p>
+			</div>
 		</div>
 		<%}%>
 	</div>

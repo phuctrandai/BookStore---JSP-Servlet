@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import bean.Book;
 import bean.Loai;
@@ -49,10 +46,11 @@ public class HomeController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		
-		// Get Books ======================
+		// Load sách lên ======================
 		HashMap<String, Book> bookList = null;
 		String categoryId = request.getParameter("categoryId");
 		
+		// Phân trang
 		int pageNumber = 1;
 		if(request.getParameter("pageNumber") != null) {
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
@@ -62,21 +60,23 @@ public class HomeController extends HttpServlet {
 		
 		try {
 			if(command != null) {
-				// Search ================
+		// Tìm kiếm ================
 				if(command.equals("search")) {
+		// Tiêu chí tìm kiếm
 					String optionSearch = request.getParameter("optionSearch");
-					
-					// Find by name / title of book
+		// Tìm theo tựa/tên sách
 					if(optionSearch.equals("0")) {
 						bookList = bookBo.findByName(request.getParameter("keyWord"));
 					}
 					request.setAttribute("totalPage", 1);
 				}
 			}
+		// Lấy tất cả sách =========
 			else if(categoryId == null) {
 				bookList = bookBo.getBookList(pageNumber, BOOK_PER_PAGE);
 				request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE));
 			}
+		// Lấy sách theo loại =========
 			else {
 				bookList = bookBo.getBooksByCategoryId(pageNumber, BOOK_PER_PAGE, categoryId);
 				request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE, categoryId));
@@ -86,7 +86,7 @@ public class HomeController extends HttpServlet {
 		}
 		request.setAttribute("bookList", bookList);
 		
-		// Get book category =================
+		// Lấy danh sách loại =================
 		ArrayList<Loai> loaiList = null;
 		try {
 	   		loaiList = loaiBo.getLoai();

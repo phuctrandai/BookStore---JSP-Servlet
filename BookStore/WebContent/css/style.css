@@ -100,6 +100,9 @@ body {
 	padding: 2px;
 	width: 48px;
 }
+.book-quantity {
+	float: right;
+}
 .itemInfo {
 	margin: 0px;
 	display: inline-block;

@@ -32,12 +32,14 @@ public class BookDao {
 		
 		PreparedStatement pStatement;
 		ResultSet resultSet;
+		// Get by page number
 		if(pageNumber > 0) {
 			pStatement = connectDB.connection.prepareStatement("SELECT * FROM [dbo].[GetBookOfPage] (?, ?)");
 			pStatement.setInt(1, pageNumber);
 			pStatement.setInt(2, bookPerPage);
 			resultSet = pStatement.executeQuery();
 		}
+		// Get all books
 		else {
 			resultSet = connectDB.getTable("Sach");
 		}
@@ -136,6 +138,13 @@ public class BookDao {
 		return bookList;
 	}
 	
+	/**
+	 * Get total number of book
+	 * @param categoryId
+	 * @return int result
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public int getTotalBook(String categoryId) throws SQLException, ClassNotFoundException {
 		connectDB.Connect();
 		PreparedStatement pStatement;
