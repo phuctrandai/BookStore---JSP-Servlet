@@ -10,8 +10,14 @@ body {
 #scrollToTopBtn {
 	display: none;
 	position: fixed;
+	bottom: 70px;
+	right: 10px;
+	z-index: 99;
+}
+#scrollToBotBtn {
+	position: fixed;
 	bottom: 20px;
-	right: 20px;
+	right: 10px;
 	z-index: 99;
 }
 #header {
