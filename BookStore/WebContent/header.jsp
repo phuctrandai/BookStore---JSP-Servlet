@@ -1,4 +1,5 @@
 <%@page import="bean.Cart"%>
+<%@page import="bo.CartBo"%>
 <%@page import="bean.Book"%>
 <%@page import="bean.Item"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -6,6 +7,7 @@
 
 	<%
 	Cart cart = (Cart) session.getAttribute("cart");
+	CartBo cartBo = new CartBo(cart);
 	String userName = (String) session.getAttribute("userName");
 	%>
 	
@@ -38,7 +40,7 @@
 		      	<span style="font-size: 14px; font-weight: normal;">Đang có ( <span id="totalItem">
 		      	<%
 		      		if(cart != null) 
-		      			out.print(cart.getTotalItem());
+		      			out.print(cartBo.getTotalItem());
      				else
 		      			out.print(0);
 		      	%> </span> )

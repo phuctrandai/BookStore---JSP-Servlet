@@ -1,3 +1,4 @@
+<%@page import="bo.CartBo"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="bean.Item"%>
@@ -29,10 +30,7 @@
 	
 	<%
 		Cart cart = (Cart) session.getAttribute("cart");
-		if (cart == null) {
-	        cart = new Cart();
-	        session.setAttribute("cart", cart);
-	    }
+		CartBo cartBo = new CartBo(cart);
 		session.setAttribute("prevPage", "cart");
 	%>
 	
@@ -77,7 +75,7 @@
 			%>
 <!-- Show when cart has no item -->
 			<tr>
-			<td colspan="2" id="emptyCart" <%if(cart.getTotalItem() > 0) { %>style="visibility:collapse;" <%}%>>
+			<td colspan="2" id="emptyCart" <%if(cartBo.getTotalItem() > 0) { %>style="visibility:collapse;" <%}%>>
 				<h2 style="display: inline-block">
 					<span style="color: #F4B344">Hiện đang trống</span>
 				</h2>
@@ -88,10 +86,10 @@
 			</tr>
 			<tr>
 <!-- Show when cart has item -->
-			<td colspan="2" id="hasItem" <%if(cart.getTotalItem() == 0) { %>style="visibility:collapse;"<%}%>>
+			<td colspan="2" id="hasItem" <%if(cartBo.getTotalItem() == 0) { %>style="visibility:collapse;"<%}%>>
 				<h2>
 					<span style="color: #F4B344">Tổng cộng:</span>
-					<span id="totalPrice"><%="   " + nf.format(cart.getTotalPrice())%></span>
+					<span id="totalPrice"><%="   " + nf.format(cartBo.getTotalPrice())%></span>
 				</h2>
 				<a href="home">
 					<button class="btn btn-success">Tiếp tục mua hàng</button>
