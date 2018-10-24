@@ -21,12 +21,3 @@
 		</form>
 	</div>
 	<hr>
-	
-	<script>
-		$('#searchBtn').click(function(){
-			//var opt = $('#optionSearch option:selected').text();
-			
-			
-			//alert(opt);
-		});
-	</script>

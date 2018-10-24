@@ -26,7 +26,7 @@ public class HomeController extends HttpServlet {
 
 	private LoaiBo loaiBo = null;
 	private BookBo bookBo = null;
-	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -42,59 +42,34 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Set character encoding for Vietnamese =============
+		// Set tiếng việt =============
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		
-		// Load sách lên ======================
-		HashMap<String, Book> bookList = null;
-		String categoryId = request.getParameter("categoryId");
+		// Lấy danh sách loại =================
+		getDanhSachLoai(request, response);
 		
-		// Phân trang
-		int pageNumber = 1;
-		if(request.getParameter("pageNumber") != null) {
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		}
-		
+		// Lấy lệnh xử lý ===========
 		String command = request.getParameter("command");
-		
+
 		try {
-			if(command != null) {
-		// Tìm kiếm ================
-				if(command.equals("search")) {
-		// Tiêu chí tìm kiếm
-					String optionSearch = request.getParameter("optionSearch");
-		// Tìm theo tựa/tên sách
-					if(optionSearch.equals("0")) {
-						bookList = bookBo.findByName(request.getParameter("keyWord"));
-					}
-					request.setAttribute("totalPage", 1);
+			if (command != null) {
+				// Tìm kiếm ================
+				if (command.equals("search")) {
+					timKiemSach(request, response);
+				}
+				else if(command.equals("")) {
+					
 				}
 			}
-		// Lấy tất cả sách =========
-			else if(categoryId == null) {
-				bookList = bookBo.getBookList(pageNumber, BOOK_PER_PAGE);
-				request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE));
-			}
-		// Lấy sách theo loại =========
+			// Lấy tất cả sách =========
 			else {
-				bookList = bookBo.getBooksByCategoryId(pageNumber, BOOK_PER_PAGE, categoryId);
-				request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE, categoryId));
+				getSach(request, response);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		request.setAttribute("bookList", bookList);
-		
-		// Lấy danh sách loại =================
-		ArrayList<Loai> loaiList = null;
-		try {
-	   		loaiList = loaiBo.getLoai();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		request.setAttribute("loaiList", loaiList);
-				
+
 		// Forward ========================
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 	}
@@ -109,4 +84,49 @@ public class HomeController extends HttpServlet {
 		doGet(request, response);
 	}
 
+	private void getDanhSachLoai(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		ArrayList<Loai> loaiList = null;
+		try {
+			loaiList = loaiBo.getLoai();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		request.setAttribute("loaiList", loaiList);
+	}
+
+	private void getSach(HttpServletRequest request, HttpServletResponse response)
+			throws ClassNotFoundException, SQLException {
+		HashMap<String, Book> bookList = null;
+		String categoryId = request.getParameter("categoryId");
+		// Phân trang
+		int pageNumber = 1;
+		if (request.getParameter("pageNumber") != null) {
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		}
+		// Lấy hết sách
+		if (categoryId == null) {
+			bookList = bookBo.getBookList(pageNumber, BOOK_PER_PAGE);
+			request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE));
+		}
+		// Lấy sách theo loại =========
+		else {
+			bookList = bookBo.getBooksByCategoryId(pageNumber, BOOK_PER_PAGE, categoryId);
+			request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE, categoryId));
+		}
+		request.setAttribute("bookList", bookList);
+	}
+
+	private void timKiemSach(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, ClassNotFoundException, SQLException {
+		// Tiêu chí tìm kiếm
+		String optionSearch = request.getParameter("optionSearch");
+		HashMap<String, Book> bookList = null;
+		// Tìm theo tựa/tên sách
+		if (optionSearch.equals("0")) {
+			bookList = bookBo.findByName(request.getParameter("keyWord"));
+		}
+		request.setAttribute("totalPage", 1);
+		request.setAttribute("bookList", bookList);
+	}
 }

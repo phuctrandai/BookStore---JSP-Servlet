@@ -4,9 +4,8 @@ body {
 	font-family: 'Oswald', sans-serif;
 	color: #666;
 }
-#headerMenu, #topNav {
-	font-family: 'K2D', sans-serif;
-}
+
+/*======= Scroll button =========*/
 #scrollToTopBtn {
 	display: none;
 	position: fixed;
@@ -19,6 +18,11 @@ body {
 	bottom: 20px;
 	right: 10px;
 	z-index: 99;
+}
+
+/*========= Top Menu =========*/
+#headerMenu, #topNav {
+	font-family: 'K2D', sans-serif;
 }
 #header {
 	width: 100%;
@@ -66,7 +70,6 @@ body {
 #topNav ul {
     height: 100%;
     display: flex;
-    /* align-items: stretch; */
     width: 100%;
 }
 #topNav .nav-link {
@@ -85,7 +88,12 @@ body {
 #topNav .nav-item:hover {
 	background-color: #50110e;
 }
-
+/*========== Content ===========*/
+#contentView {
+	width:75%;
+	float: right;
+	margin-bottom: 48px;
+}
 .bookCol {
 	text-align: center;
 	margin: 13px 32px;
@@ -105,11 +113,21 @@ body {
 .book-quantity {
 	float: right;
 }
+.add-to-cart img {
+	transition: 0.2s;
+}
+.add-to-cart:hover {
+	text-decoration: none;
+}
+.add-to-cart:hover img {
+	transform: scale(1.1, 1.1);
+}
 
+/*========== Cart ============*/
 #cartContent {
-	margin: 30px auto;
-	width: 75%;
+	width: 70%;
 	float: right;
+	margin: 0px 30px;
 }
 .itemInfo {
 	margin: 0px;
@@ -119,13 +137,9 @@ body {
 	color: #F4B344;
 }
 
-#contentView {
-	width:75%;
-	float: right;
-	margin-bottom: 48px;
-}
+/*=========== Category sidebar========*/
 #categorySideBar {
-	width: 15%; 
+	width: 20%;
 	display: inline-block;
 	float: left;
 	margin-left: 4rem;
@@ -148,16 +162,6 @@ body {
 	background-color: #9b231c;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 	color: #fff;
-}
-
-.add-to-cart img {
-	transition: 0.2s;
-}
-.add-to-cart:hover {
-	text-decoration: none;
-}
-.add-to-cart:hover img {
-	transform: scale(1.1, 1.1);
 }
 
 /* =============== Login page =============== */

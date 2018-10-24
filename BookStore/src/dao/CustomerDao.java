@@ -47,6 +47,7 @@ public class CustomerDao {
 			customer = new Customer(id, name, address, phoneNumber, email, account);
 		}
 		resultSet.close();
+		connectDB.Disconnect();
 		return customer;
 	}
 	
@@ -62,6 +63,7 @@ public class CustomerDao {
 		pStatement.setString(5, account.getUserName());
 		
 		int result = pStatement.executeUpdate();
+		connectDB.Disconnect();
 		return result > 0;
 	}
 }

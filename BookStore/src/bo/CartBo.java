@@ -1,10 +1,13 @@
 package bo;
 
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Map;
 
 import bean.Book;
 import bean.Cart;
 import bean.Item;
+import dao.CartDao;
 
 public class CartBo {
 	private Cart cart;
@@ -60,5 +63,13 @@ public class CartBo {
 			totalPrice += s.getValue().getQuality() * s.getValue().getBook().getPrice();
 		}
 		return totalPrice;
+	}
+	
+	public void luuHoaDon() throws ClassNotFoundException, SQLException {
+		Date ngayMua = new Date(System.currentTimeMillis());
+		cart.setNgayMua(ngayMua);
+		
+		CartDao cartDao = new CartDao(cart);
+		cartDao.luuHoaDon();
 	}
 }

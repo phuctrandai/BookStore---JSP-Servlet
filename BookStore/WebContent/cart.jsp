@@ -90,53 +90,19 @@
 				<h2>
 					<span style="color: #F4B344">Tổng cộng:</span>
 					<span id="totalPrice"><%="   " + nf.format(cartBo.getTotalPrice())%></span>
-				</h2>
-				<a href="home">
-					<button class="btn btn-success">Tiếp tục mua hàng</button>
-				</a> <!--<a href="#"><button class="btn-danger">Thanh toán</button></a>-->
+				</h2><br>
+				<a class="btn btn-success" href="home">
+					Tiếp tục mua hàng
+				</a>
+				<a class="btn btn-danger ml-sm-3" href="cart?command=checkout">
+					Xác nhận và thanh toán
+				</a>
 			</td>
 			</tr>
 		</table>
 	</div>
-</body>
-<script>
-	$('.updateBtn').click(function() {
-		var bookId = $(this).attr("id");
-		var itemQuality = $('#itemQuality'+bookId).val();
-		$.post('cart',
-		{
-			updateBtn : "updateBtn",
-			command : "modify",
-			bookId : bookId,
-			itemQuality : itemQuality
-		}, function(data, status) {
-			
-			var str = data.split(";");
-			$('#totalPrice').html(str[0]);
-		});
-	});
 	
-	$('.removeBtn').click(function() {
-		var bookId = $(this).attr("id");
-		$.post('cart',
-		{	removeBtn : "removeBtn",
-			command : "modify",
-			bookId : bookId
-		}, function(data, status) {
-			var str = data.split(";");
-			$('#totalPrice').html(str[0]);
-			$('tr[id='+bookId+']').remove();
-			$('#totalItem').html(str[1]);
-
-			if(str[1] == 0) {
-				$('#emptyCart').css("visibility","visible");
-				$('#hasItem').remove();
-				
-			} else {
-				$('#emptyCart').css("visibility","collapse");
-				$('#hasItem').css("visibility","visible");
-			}
-		});
-	});
-</script>
+	<script src="./JS/script.js"></script>
+	
+</body>
 </html>
