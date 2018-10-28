@@ -24,8 +24,7 @@
 	
 	<%
 		Bill bill = (Bill) session.getAttribute("bill");
-		BillBo cartBo = new BillBo(bill);
-		session.setAttribute("prevPage", "cart");
+		BillBo billBo = new BillBo(bill);
 	%>
 	
 	<jsp:include page="header.jsp"></jsp:include>
@@ -69,7 +68,7 @@
 			%>
 <!-- Show when cart has no item -->
 			<tr>
-			<td colspan="2" id="emptyCart" <%if(cartBo.getTotalItem() > 0) { %>style="visibility:collapse;" <%}%>>
+			<td colspan="2" id="emptyCart" <%if(billBo.getTotalItem() > 0) { %>style="visibility:collapse;" <%}%>>
 				<h2 style="display: inline-block">
 					<span style="color: #F4B344">Hiện đang trống</span>
 				</h2>
@@ -80,17 +79,18 @@
 			</tr>
 			<tr>
 <!-- Show when cart has item -->
-			<td colspan="2" id="hasItem" <%if(cartBo.getTotalItem() == 0) { %>style="visibility:collapse;"<%}%>>
+			<td colspan="2" id="hasItem" <%if(billBo.getTotalItem() == 0) { %>style="visibility:collapse;"<%}%>>
 				<h2>
 					<span style="color: #F4B344">Tổng cộng:</span>
-					<span id="totalPrice"><%="   " + nf.format(cartBo.getTotalPrice())%></span>
+					<span id="totalPrice"><%="   " + nf.format(billBo.getTotalPrice())%></span>
 				</h2><br>
 				<a class="btn btn-success" href="home">
 					Tiếp tục mua hàng
 				</a>
-				<a class="btn btn-danger ml-sm-3" href="bill?command=checkout">
-					Xác nhận và thanh toán
-				</a>
+				<form action="bill" method="post" style="display: inline-block">
+					<input type="hidden" name="command" value="checkout">
+					<input type="submit" class="btn btn-danger ml-sm-3" value="Xác nhận và thanh toán">
+				</form>
 			</td>
 			</tr>
 		</table>

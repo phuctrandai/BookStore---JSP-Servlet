@@ -29,9 +29,7 @@
 	
 	<jsp:include page="search.jsp"></jsp:include>
 	
-	<%
-	session.setAttribute("prevPage", "bill");
-	
+	<%	
 	String command = (String) request.getAttribute("command");
 	if(command != null) {
 		// Thanh toán hóa đơn
@@ -104,9 +102,10 @@
 						<span class="ml-3"><b><%=customer.getPhoneNumber()%></b></span>
 					</p>
 					<a href="#">Thay đổi địa chỉ</a>
-					<a class="btn btn-danger w-100 mt-5 float-left" href="bill?command=pay">
-						Thanh toán
-					</a>
+					<form action="bill" method="post" class="w-100">
+						<input type="hidden" name="command" value="pay">
+						<input type="submit" class="btn btn-danger w-100 mt-5 float-left" value="Thanh toán">
+					</form>
 				</div>
 			</div>
 		

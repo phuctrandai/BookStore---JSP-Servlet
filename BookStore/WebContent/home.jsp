@@ -15,9 +15,7 @@
 	<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-	
-	<% session.setAttribute("prevPage", "home"); %>
-	
+		
 	<jsp:include page="header.jsp"></jsp:include>
 	
 	<jsp:include page="search.jsp"></jsp:include>
