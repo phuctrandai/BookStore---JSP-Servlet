@@ -67,8 +67,7 @@ public class BillDao {
 
 		String query = "EXECUTE CapNhatChiTietHoaDon @pMaKhachHang = ?, @pMaSach = ?, @pSoLuongMua = ?";
 		for (Map.Entry<String, Item> i : items.entrySet()) {
-			connectDB.executeUpdate(query,
-					new Object[] { bill.getCustomerId(), i.getValue().getBook().getId(), i.getValue().getQuantity() });
+			connectDB.executeUpdate(query, new Object[] { bill.getCustomerId(), i.getValue().getBook().getId(), i.getValue().getQuantity() });
 		}
 	}
 
