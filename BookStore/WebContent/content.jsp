@@ -1,6 +1,6 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="bean.Loai"%>
+<%@page import="bean.Category"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
 <%@page import="bean.Book"%>
@@ -14,8 +14,7 @@
 	HashMap<String, Book> bookList = (HashMap<String, Book>) request.getAttribute("bookList");
 	
 	if(bookList != null && bookList.size() > 0) {		
-		Locale locale = new Locale("vie","VN");
-		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vie","VN"));
 	
 		for (Map.Entry<String, Book> item : bookList.entrySet()) {
 		%>

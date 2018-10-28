@@ -1,13 +1,13 @@
-<%@page import="bean.Cart"%>
-<%@page import="bo.CartBo"%>
+<%@page import="bean.Bill"%>
+<%@page import="bo.BillBo"%>
 <%@page import="bean.Book"%>
 <%@page import="bean.Item"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
 	<%
-	Cart cart = (Cart) session.getAttribute("cart");
-	CartBo cartBo = new CartBo(cart);
+	Bill bill = (Bill) session.getAttribute("bill");
+	BillBo billBo = new BillBo(bill);
 	String userName = (String) session.getAttribute("userName");
 	%>
 	
@@ -39,8 +39,8 @@
 		      	<a class="nav-link" href="cart" title="Giỏ hàng của bạn">Giỏ hàng</a><br>
 		      	<span style="font-size: 13px; font-weight: normal;">Đang có ( <span id="totalItem">
 		      	<%
-		      		if(cart != null) 
-		      			out.print(cartBo.getTotalItem());
+		      		if(bill != null) 
+		      			out.print(billBo.getTotalItem());
      				else
 		      			out.print(0);
 		      	%> </span> )
@@ -103,10 +103,10 @@
 					<!-- Modal body -->
 					<div class="modal-body">
 						<label for="userName">Tên tài khoản:</label>
-						<input type="text" name="userName" id="userName" class="form-control"><br>
+						<input type="text" name="userName" id="userName" class="form-control" autocomplete="userName"><br>
 						
 						<label for="password">Mật khẩu:</label>
-						<input type="password" name="password" id="password" class="form-control"><br>
+						<input type="password" name="password" id="password" class="form-control" autocomplete="password"><br>
 						
 						<div>
 							<a href="account">Đăng ký</a>

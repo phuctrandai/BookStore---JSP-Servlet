@@ -2,7 +2,7 @@ package bean;
 
 public class Item {
 	private Book book;
-	private int quality;
+	private int quantity;
 	
 	public Book getBook() {
 		return book;
@@ -10,17 +10,17 @@ public class Item {
 	public void setBook(Book book) {
 		this.book = book;
 	}
-	public int getQuality() {
-		return quality;
+	public int getQuantity() {
+		return quantity;
 	}
-	public void setQuality(int quality) {
-		this.quality = quality;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
-	public Item(Book book, int quality) {
+	public Item(Book book, int quantity) {
 		super();
 		this.book = book;
-		this.quality = quality;
+		this.quantity = quantity;
 	}
 	public Item() {
 	}

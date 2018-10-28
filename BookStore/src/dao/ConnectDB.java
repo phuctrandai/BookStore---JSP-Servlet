@@ -28,8 +28,10 @@ public class ConnectDB {
 
 	public ResultSet executeQuery(String query, Object[] params) throws ClassNotFoundException, SQLException {
 		PreparedStatement pStatement = connection.prepareStatement(query);
-		for (int i = 0; i < params.length; i++) {
-			pStatement.setObject(i + 1, params[i]);
+		if(params != null) {
+			for (int i = 0; i < params.length; i++) {
+				pStatement.setObject(i + 1, params[i]);
+			}
 		}
 		ResultSet result = pStatement.executeQuery();
 		return result;
@@ -37,8 +39,10 @@ public class ConnectDB {
 
 	public int executeUpdate(String query, Object[] params) throws SQLException, ClassNotFoundException {
 		PreparedStatement pStatement = connection.prepareStatement(query);
-		for (int i = 0; i < params.length; i++) {
-			pStatement.setObject(i + 1, params[i]);
+		if(params != null) {
+			for (int i = 0; i < params.length; i++) {
+				pStatement.setObject(i + 1, params[i]);
+			}
 		}
 		int result = pStatement.executeUpdate();
 		return result;
@@ -46,8 +50,10 @@ public class ConnectDB {
 
 	public Object executeScalar(String query, Object[] params) throws SQLException, ClassNotFoundException {
 		PreparedStatement pStatement = connection.prepareStatement(query);
-		for (int i = 0; i < params.length; i++) {
-			pStatement.setObject(i + 1, params[i]);
+		if(params != null) {
+			for (int i = 0; i < params.length; i++) {
+				pStatement.setObject(i + 1, params[i]);
+			}
 		}
 		ResultSet result = pStatement.executeQuery();
 		Object sca = null;

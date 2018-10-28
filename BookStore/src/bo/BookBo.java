@@ -8,93 +8,106 @@ import bean.Book;
 import dao.BookDao;
 
 public class BookBo {
-	/**
-	 * Fields
-	 */
 	private final BookDao bookDao;
 	private HashMap<String, Book> bookList;
-	
-	/**
-	 * Contructors
-	 */
+
 	public BookBo() {
 		bookDao = new BookDao();
 	}
-	
+
 	/**
-	 * Get books
+	 * Lấy sách hiển thị ở trang thứ pageNumber với số lượng sách trên trang là bookPerPage
+	 * 
+	 * @param pageNumber Số trang đang hiển thị
+	 * @param bookPerPage Số lượng sách trên mỗi trang
 	 * @return HashMap<String, Book>
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public HashMap<String, Book> getBookList(int pageNumber, int bookPerPage) throws ClassNotFoundException, SQLException {
-		bookList =  bookDao.getBookList(pageNumber, bookPerPage);
+	public HashMap<String, Book> getList(int pageNumber, int bookPerPage) throws ClassNotFoundException, SQLException {
+		bookList = bookDao.getList(pageNumber, bookPerPage);
 		return bookList;
 	}
-	
+
 	/**
-	 * Get book by id
-	 * @param bookId
+	 * Lấy sách theo mã sách
+	 * 
+	 * @param bookId Mã sách
 	 * @return Book
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public Book getBookById(String bookId) throws ClassNotFoundException, SQLException {
-		return bookDao.getBookById(bookId);
+	public Book getById(String bookId) throws ClassNotFoundException, SQLException {
+		return bookDao.getById(bookId);
 	}
-	
+
 	/**
-	 * Find book by name
-	 * @param bookName
+	 * Tìm kiếm theo tên sách
+	 * 
+	 * @param bookName Tên sách
 	 * @return HashMap<String, Book>
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
 	public HashMap<String, Book> findByName(String bookName) throws ClassNotFoundException, SQLException {
 		HashMap<String, Book> result = new HashMap<String, Book>();
-		HashMap<String, Book> allBook = bookDao.getBookList();
+		HashMap<String, Book> allBook = bookDao.getList();
 
-		for(Map.Entry<String, Book> item : allBook.entrySet()) {
-			if(item.getValue().getName().toLowerCase().contains(bookName.toLowerCase()))
+		for (Map.Entry<String, Book> item : allBook.entrySet()) {
+			if (item.getValue().getName().toLowerCase().contains(bookName.toLowerCase()))
 				result.put(item.getKey(), item.getValue());
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
-	 * Get books by category id
-	 * @param categoryId
-	 * @return HashMap<String, Book> bookList
+	 * Lấy danh sách sách theo mã loại
+	 * 
+	 * @param categoryId Mã loại
+	 * @return HashMap<String, Book>
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public HashMap<String, Book> getBooksByCategoryId(int pageNumber, int bookPerPage, String categoryId) throws ClassNotFoundException, SQLException {
-		bookList = bookDao.getBooksByCategoryId(pageNumber, categoryId, bookPerPage);
+	public HashMap<String, Book> getByCategoryId(String categoryId, int pageNumber, int bookPerPage)
+			throws ClassNotFoundException, SQLException {
+		bookList = bookDao.getByCategoryId(categoryId, pageNumber, bookPerPage);
 		return bookList;
 	}
-	
+
 	/**
-	 * Get total page
-	 * @param bookPerRow
+	 * Tính tổng số lượng trang hiển thị sách theo mã loại sách
+	 * 
+	 * @param bookPerPage Số sách mỗi trang
+	 * @param categoryId Mã loại sách
 	 * @return int
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public int getTotalPage(int bookPerPage, String categoryId ) throws ClassNotFoundException, SQLException {
+	public int getTotalPage(int bookPerPage, String categoryId) throws ClassNotFoundException, SQLException {
 		int totalBook;
-		if(categoryId == "")
+		if (categoryId == "")
 			totalBook = bookDao.getTotalBook();
 		else
 			totalBook = bookDao.getTotalBook(categoryId);
-		
-		if(bookPerPage > 0) {
-			if(totalBook % bookPerPage != 0) return (totalBook / bookPerPage + 1);
-			else return (totalBook / bookPerPage);
+
+		if (bookPerPage > 0) {
+			if (totalBook % bookPerPage != 0)
+				return (totalBook / bookPerPage + 1);
+			else
+				return (totalBook / bookPerPage);
 		}
 		return 1;
 	}
 	
+	/**
+	 * Tính tổng số lượng trang hiển thị sách của tất cả sách
+	 * 
+	 * @param bookPerPage Số lượng sách mỗi trang
+	 * @return int
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public int getTotalPage(int bookPerPage) throws ClassNotFoundException, SQLException {
 		return getTotalPage(bookPerPage, "");
 	}

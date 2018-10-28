@@ -1,4 +1,4 @@
-<%@page import="bean.Cart"%>
+<%@page import="bean.Bill"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -36,8 +36,8 @@
 		<i class="fa fa-chevron-circle-down" style="font-size:24px;"></i>
 	</button>
 </body>
-	<script src="./JS/script.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="./JS/script.js"></script>
 </html>

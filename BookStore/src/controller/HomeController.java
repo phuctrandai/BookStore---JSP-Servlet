@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Book;
-import bean.Loai;
+import bean.Category;
 import bo.BookBo;
-import bo.LoaiBo;
+import bo.CategoryBo;
 
 /**
  * Servlet implementation class HomeController
@@ -22,9 +22,10 @@ import bo.LoaiBo;
 @WebServlet(name = "HomeController", urlPatterns = { "/home" })
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	public final int BOOK_PER_PAGE = 24;
 
-	private LoaiBo loaiBo = null;
+	private CategoryBo categoryBo = null;
 	private BookBo bookBo = null;
 
 	/**
@@ -33,7 +34,7 @@ public class HomeController extends HttpServlet {
 	public HomeController() {
 		super();
 		bookBo = new BookBo();
-		loaiBo = new LoaiBo();
+		categoryBo = new CategoryBo();
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class HomeController extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		// Lấy danh sách loại sách =================
-		getDanhSachLoai(request, response);
+		getCategoryList(request, response);
 		
 		// Lấy lệnh xử lý ===========
 		String command = request.getParameter("command");
@@ -56,7 +57,7 @@ public class HomeController extends HttpServlet {
 			if (command != null) {
 				// Tìm kiếm ================
 				if (command.equals("search")) {
-					timKiemSach(request, response);
+					findBook(request, response);
 				}
 				else if(command.equals("")) {
 					
@@ -64,7 +65,7 @@ public class HomeController extends HttpServlet {
 			}
 			// Lấy tất cả sách =========
 			else {
-				getSach(request, response);
+				getBook(request, response);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -84,18 +85,18 @@ public class HomeController extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private void getDanhSachLoai(HttpServletRequest request, HttpServletResponse response)
+	private void getCategoryList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ArrayList<Loai> loaiList = null;
+		ArrayList<Category> categoryList = null;
 		try {
-			loaiList = loaiBo.getLoai();
+			categoryList = categoryBo.getList();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		request.setAttribute("loaiList", loaiList);
+		request.setAttribute("categoryList", categoryList);
 	}
 
-	private void getSach(HttpServletRequest request, HttpServletResponse response)
+	private void getBook(HttpServletRequest request, HttpServletResponse response)
 			throws ClassNotFoundException, SQLException {
 		HashMap<String, Book> bookList = null;
 		String categoryId = request.getParameter("categoryId");
@@ -106,18 +107,18 @@ public class HomeController extends HttpServlet {
 		}
 		// Lấy hết sách
 		if (categoryId == null) {
-			bookList = bookBo.getBookList(pageNumber, BOOK_PER_PAGE);
+			bookList = bookBo.getList(pageNumber, BOOK_PER_PAGE);
 			request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE));
 		}
 		// Lấy sách theo loại =========
 		else {
-			bookList = bookBo.getBooksByCategoryId(pageNumber, BOOK_PER_PAGE, categoryId);
+			bookList = bookBo.getByCategoryId(categoryId, pageNumber, BOOK_PER_PAGE);
 			request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE, categoryId));
 		}
 		request.setAttribute("bookList", bookList);
 	}
 
-	private void timKiemSach(HttpServletRequest request, HttpServletResponse response)
+	private void findBook(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
 		
 		// Tiêu chí tìm kiếm

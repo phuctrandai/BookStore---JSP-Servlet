@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.Bill;
 import bean.Book;
-import bean.Cart;
-import bean.Loai;
+import bean.Category;
+import bo.BillBo;
 import bo.BookBo;
-import bo.CartBo;
-import bo.LoaiBo;
+import bo.CategoryBo;
 
 /**
  * Servlet implementation class CartController
@@ -26,7 +26,7 @@ import bo.LoaiBo;
 public class CartController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private LoaiBo loaiBo = null;
+	private CategoryBo categoryBo = null;
 	private BookBo bookBo = null;
 
 	/**
@@ -35,7 +35,7 @@ public class CartController extends HttpServlet {
 	public CartController() {
 		super();
 		bookBo = new BookBo();
-		loaiBo = new LoaiBo();
+		categoryBo = new CategoryBo();
 	}
 
 	/**
@@ -56,31 +56,31 @@ public class CartController extends HttpServlet {
 		getListCategory(request, response);
 
 		// Kiểm tra giỏ hàng, khỏi tạo nếu chưa có =============
-		Cart cart = (Cart) session.getAttribute("cart");
-		if (cart == null) {
-			cart = new Cart();
-			session.setAttribute("cart", cart);
+		Bill bill = (Bill) session.getAttribute("bill");
+		if (bill == null) {
+			bill = new Bill();
+			session.setAttribute("bill", bill);
 		}
-		CartBo cartBo = new CartBo(cart);
+		BillBo cartBo = new BillBo(bill);
 
 		// Xử lý nghiệp vụ =================
 		if (command != null) {
 			switch (command) {
 			// Thêm một sản phẩm vào giỏ hàng
 			case "add": {
-				addToCart(cartBo, request, response);
+				addToBill(cartBo, request, response);
 				break;
 			}
 			// Cập nhật số lượng của sản phẩm trong giỏ hàng
 			case "modify": {
-				updateCart(cartBo, request, response);
+				updateBill(cartBo, request, response);
 				break;
 			}
 			default:
 				break;
 			}
 		} else {
-			session.setAttribute("cart", cartBo.getCart());
+			session.setAttribute("cart", cartBo.getBill());
 			request.getRequestDispatcher("cart.jsp").forward(request, response);
 		}
 	}
@@ -96,47 +96,47 @@ public class CartController extends HttpServlet {
 
 	private void getListCategory(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ArrayList<Loai> loaiList = null;
+		ArrayList<Category> categoryList = null;
 		try {
-			loaiList = loaiBo.getLoai();
+			categoryList = categoryBo.getList();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		request.setAttribute("loaiList", loaiList);
+		request.setAttribute("categoryList", categoryList);
 	}
 
-	private void addToCart(CartBo cartBo, HttpServletRequest request, HttpServletResponse response)
+	private void addToBill(BillBo billBo, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Lấy sách theo mã
 		String bookId = request.getParameter("bookId");
 		Book book = null;
 		try {
-			book = bookBo.getBookById(bookId);
+			book = bookBo.getById(bookId);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		cartBo.addToCart(book);
-		request.getSession().setAttribute("cart", cartBo.getCart());
+		billBo.addToBill(book);
+		request.getSession().setAttribute("bill", billBo.getBill());
 		request.getRequestDispatcher("cart.jsp").forward(request, response);
 	}
 
-	private void updateCart(CartBo cartBo, HttpServletRequest request, HttpServletResponse response)
+	private void updateBill(BillBo billBo, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		// Lấy sách theo mã
 		String bookId = request.getParameter("bookId");
 
 		if (request.getParameter("updateBtn") != null) {
 			int itemQuantity = Integer.parseInt(request.getParameter("itemQuality"));
-			cartBo.updateQuantity(bookId, itemQuantity);
+			billBo.updateQuantity(bookId, itemQuantity);
 		} else if (request.getParameter("removeBtn") != null) {
-			cartBo.removeFromCart(bookId);
+			billBo.removeFromBill(bookId);
 		}
 		// Currency format =================
 		Locale locale = new Locale("vie", "VN");
 		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
 
-		request.getSession().setAttribute("cart", cartBo.getCart());
-		response.getWriter().println(nf.format(cartBo.getTotalPrice()) + ";");
-		response.getWriter().println(cartBo.getTotalItem());
+		request.getSession().setAttribute("cart", billBo.getBill());
+		response.getWriter().println(nf.format(billBo.getTotalPrice()) + ";");
+		response.getWriter().println(billBo.getTotalItem());
 	}
 }

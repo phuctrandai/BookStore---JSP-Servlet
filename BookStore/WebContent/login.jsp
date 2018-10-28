@@ -4,7 +4,7 @@
 <%@page import="bean.Book"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
-<%@page import="bean.Cart"%>
+<%@page import="bean.Bill"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>

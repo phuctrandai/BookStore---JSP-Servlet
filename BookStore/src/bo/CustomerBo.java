@@ -15,18 +15,18 @@ public class CustomerBo {
 		accountBo = new AccountBo();
 	}
 	
-	public Customer GetCustomer(String accountName) throws SQLException, ClassNotFoundException {
-		return customerDao.GetCustomer(accountName);
+	public Customer getCustomer(String accountName) throws SQLException, ClassNotFoundException {
+		return customerDao.getCustomer(accountName);
 	}
 	
-	public boolean AddCustomer(String name, String address, String phoneNumber, String email, String userName, String password, String role) throws ClassNotFoundException, SQLException {
+	public boolean addCustomer(String name, String address, String phoneNumber, String email, String userName, String password, String role) throws ClassNotFoundException, SQLException {
 		boolean result = false;
 		
 		Account account = new Account(userName, password, role);
-		result = accountBo.AddAccount(userName, password, role);
+		result = accountBo.addAccount(userName, password, role);
 		
 		if(result) {
-			result = customerDao.AddCustomer(name, address, phoneNumber, email, account);
+			result = customerDao.addCustomer(name, address, phoneNumber, email, account);
 		}
 		
 		return result;

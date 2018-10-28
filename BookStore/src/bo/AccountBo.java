@@ -13,11 +13,11 @@ public class AccountBo {
 		accountDao = new AccountDao();
 	}
 	
-	public Account GetAccount(String userName, String password) throws ClassNotFoundException, SQLException {
-		return accountDao.GetAccount(userName, password);
+	public Account getAccount(String userName, String password) throws ClassNotFoundException, SQLException {
+		return accountDao.getAccount(userName, password);
 	}
 	
-	public boolean AddAccount(String userName, String password, String role) throws ClassNotFoundException, SQLException {
-		return accountDao.AddAccount(userName, password, role);
+	public boolean addAccount(String userName, String password, String role) throws ClassNotFoundException, SQLException {
+		return accountDao.addAccount(userName, password, role);
 	}
 }

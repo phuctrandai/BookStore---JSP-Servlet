@@ -1,6 +1,6 @@
 package bean;
 
-public class Loai {
+public class Category {
 	private String id;
 	private String name;
 	
@@ -16,10 +16,10 @@ public class Loai {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Loai() {
+	public Category() {
 		id = name = null;
 	}
-	public Loai(String id, String name) {
+	public Category(String id, String name) {
 		super();
 		this.id = id;
 		this.name = name;

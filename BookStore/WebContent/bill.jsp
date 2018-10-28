@@ -1,13 +1,13 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="bean.Customer"%>
-<%@page import="bo.CartBo"%>
+<%@page import="bo.BillBo"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="bean.Item"%>
 <%@page import="bean.Book"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
-<%@page import="bean.Cart"%>
+<%@page import="bean.Bill"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -37,8 +37,8 @@
 		// Thanh toán hóa đơn
 		if(command.equals("checkout")) {
 			Customer customer = (Customer) request.getSession().getAttribute("customer");
-			Cart cart = (Cart) session.getAttribute("cart");
-			CartBo cartBo = new CartBo(cart);
+			Bill bill = (Bill) session.getAttribute("bill");
+			BillBo billBo = new BillBo(bill);
 	%>
 		<!-- Thanh toán hóa đơn -->
 		<div class="mw-100 ml-3 p-0">
@@ -51,7 +51,7 @@
 						<%
 					NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vie", "VN"));
 					
-					for (Map.Entry<String, Item> list : cart.getItems().entrySet()) {
+					for (Map.Entry<String, Item> list : bill.getItems().entrySet()) {
 						%>
 						<div class="card mb-3">
 							<div class="card-body">
@@ -64,9 +64,9 @@
 										<span style="font-weight: bold; color: #F4B344;">Giá:</span>
 										<span><%=nf.format(list.getValue().getBook().getPrice())%></span>
 										<span class="ml-3">x</span>
-										<span class="ml-3"><b><%=list.getValue().getQuality()%></b></span>
+										<span class="ml-3"><b><%=list.getValue().getQuantity()%></b></span>
 										<span class="ml-3">=</span>
-										<span class="ml-3 text-danger"><b><%=nf.format(list.getValue().getQuality() * list.getValue().getBook().getPrice())%></b></span>
+										<span class="ml-3 text-danger"><b><%=nf.format(list.getValue().getQuantity() * list.getValue().getBook().getPrice())%></b></span>
 									</p>
 								</div>
 							</div>
@@ -83,11 +83,11 @@
 					<p style="color: #1e7e34; font-size: 2em; font-weight: bold;">Thông tin đơn hàng:</p>
 					<p>
 						<span style="color: #000">Tổng tiền thanh toán:</span>
-						<span class="text-danger ml-3" style="font-size: 24px"><%=nf.format(cartBo.getTotalPrice())%></span>
+						<span class="text-danger ml-3" style="font-size: 24px"><%=nf.format(billBo.getTotalPrice())%></span>
 					</p>
 					<p style="color: #000">
 						<span>Ngày mua hàng:</span>
-						<span class="ml-3"><%=cartBo.getCart().getNgayMua()%></span>
+						<span class="ml-3"><%=billBo.getBill().getDOP()%></span>
 					</p>
 					<br>
 					<h5 style="color: #1e7e34; font-size: 2em; font-weight: bold;">Địa chỉ giao hàng:</h5>
@@ -112,7 +112,7 @@
 		
 		<%	} // End if(command.equals("checkout")) 
 			else if(command.equals("billHistory")) {
-				ArrayList<Cart> billList = (ArrayList<Cart>) request.getAttribute("listBill");		
+				ArrayList<Bill> billList = (ArrayList<Bill>) request.getAttribute("billList");		
 		%>
 			<div class="m-auto w-75">
 				<p style="color: #1e7e34; font-size: 2em; font-weight: bold;">Đơn hàng của tôi:</p>
@@ -120,9 +120,9 @@
 				<%for(int i=0 ; i < billList.size() ; i++) { %>
 					<div class="card w-100 mt-3">
 						<div class="card-header">
-							<h4>Mã hóa đơn: <%=billList.get(i).getMaHoaDon() %></h4>
-							<h5>Ngày lập: <%=billList.get(i).getNgayMua() %></h5>
-							<h6>Trạng thái: <%=billList.get(i).isDaThanhToan() %></h6>
+							<h4>Mã hóa đơn: <%=billList.get(i).getId() %></h4>
+							<h5>Ngày lập: <%=billList.get(i).getDOP() %></h5>
+							<h6>Trạng thái: <%=billList.get(i).isPaid() %></h6>
 						</div>
 						<div class="card-body">
 							
@@ -130,7 +130,7 @@
 						<div class="card-footer">
 							<h5	class="float-left">Tổng tiền thanh toán: <%=2 %></h5>
 							<a class="btn btn-danger float-right text-light">Xóa</a>
-							<%if(!billList.get(i).isDaThanhToan()) {%>
+							<%if(!billList.get(i).isPaid()) {%>
 								<a class="btn btn-success float-right mr-3 text-light">Thanh toán</a>
 							<%} %>
 						</div>
