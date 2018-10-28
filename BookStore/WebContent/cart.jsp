@@ -11,20 +11,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Giỏ hàng của bạn</title>
+	<title>Giỏ hàng</title>
+	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=K2D|Oswald" rel="stylesheet">
-	<link rel="stylesheet" href="./css/style.css">
-	
-	<style>
-		
-	</style>
-	
+	<link rel="stylesheet" href="./css/style.css">	
 </head>
 <body>
 	
@@ -46,9 +40,10 @@
 		<hr>
 		<table style="width: 100%;">
 			<%
-				Locale locale = new Locale("vie", "VN");
-				NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
-				for (Map.Entry<String, Item> list : cart.getItems().entrySet()) {
+		Locale locale = new Locale("vie", "VN");
+		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
+		
+		for (Map.Entry<String, Item> list : cart.getItems().entrySet()) {
 			%>
 			<tr id="<%=list.getKey() %>">
 				<td style="width: 60px;">
@@ -94,15 +89,16 @@
 				<a class="btn btn-success" href="home">
 					Tiếp tục mua hàng
 				</a>
-				<a class="btn btn-danger ml-sm-3" href="cart?command=checkout">
+				<a class="btn btn-danger ml-sm-3" href="bill?command=checkout">
 					Xác nhận và thanh toán
 				</a>
 			</td>
 			</tr>
 		</table>
-	</div>
-	
-	<script src="./JS/script.js"></script>
-	
+	</div>	
 </body>
+	<script src="./JS/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </html>

@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class CartDao {
 		ConnectDB connectDB = new ConnectDB();
 		connectDB.Connect();
 
-		String query = "SELECT * FROM HoaDon WHERE MaKhachHang = ?";
+		String query = "SELECT * FROM HoaDon WHERE MaKhachHang = ? AND DaThanhToan = 'FALSE'";
 		ResultSet result = connectDB.executeQuery(query, new Object[] { maKhachHang });
 
 		if (!result.next()) {
@@ -46,17 +47,14 @@ public class CartDao {
 	}
 
 	public void luuChiTietHoaDon(Cart cart) throws ClassNotFoundException, SQLException {
-		int maHoaDon = getMaHoaDonTheoMaKhachHang(cart.getMaKhachHang());
-		cart.setMaHoaDon(maHoaDon);
 		HashMap<String, Item> items = cart.getItems();
 
 		ConnectDB connectDB = new ConnectDB();
 		connectDB.Connect();
 
-		String query = "INSERT INTO ChiTietHoaDon(MaSach, SoLuongMua, MaHoaDon) VALUES(?,?,?)";
+		String query = "EXECUTE CapNhatChiTietHoaDon @pMaKhachHang = ?, @pMaSach = ?, @pSoLuongMua = ?";
 		for (Map.Entry<String, Item> i : items.entrySet()) {
-			connectDB.executeUpdate(query,
-					new Object[] { i.getValue().getBook().getId(), i.getValue().getQuality(), maHoaDon });
+			connectDB.executeUpdate(query, new Object[] { cart.getMaKhachHang(), i.getValue().getBook().getId(), i.getValue().getQuality() });
 		}
 	}
 
@@ -68,5 +66,35 @@ public class CartDao {
 		int result = (int) connectDB.executeScalar(query, new Object[] { maKhachHang });
 
 		return result;
+	}
+	
+	public ArrayList<Cart> getDanhSachHoaDon(int maKhachHang) throws ClassNotFoundException, SQLException {
+		ArrayList<Cart> list = new ArrayList<>();
+		
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "SELECT * FROM HoaDon WHERE MaKhachHang = ?";
+		ResultSet result = connectDB.executeQuery(query, new Object[] { maKhachHang });
+		while(result.next()) {
+			Cart cart = new Cart();
+			cart.setMaHoaDon(result.getInt("MaHoaDon"));
+			cart.setNgayMua(result.getDate("NgayMua"));
+			cart.setDaThanhToan(result.getBoolean("DaThanhToan"));
+			cart.setMaKhachHang(maKhachHang);
+			list.add(cart);
+		}
+		
+		return list;
+	}
+	
+	public boolean thanhToan() throws ClassNotFoundException, SQLException {
+		ConnectDB connectDB = new ConnectDB();
+		connectDB.Connect();
+		
+		String query = "UPDATE HoaDon SET DaThanhToan = 1, NgayMua = ? WHERE MaKhachHang = ?";
+		int result = connectDB.executeUpdate(query, new Object[] { cart.getNgayMua(), cart.getMaKhachHang() });
+		connectDB.Disconnect();
+		return result > 0;
 	}
 }

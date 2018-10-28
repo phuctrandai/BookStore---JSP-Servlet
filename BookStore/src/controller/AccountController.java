@@ -51,12 +51,17 @@ public class AccountController extends HttpServlet {
 
 		// Lấy danh sách loại =================
 		getCategoryList(request, response);
-
+		
+		// Lấy lệnh xử lý ==========
 		String command = request.getParameter("command");
+		
+		// Xử lý ===========
 		if (command != null) {
 			// Đăng nhập ============
 			if (command.equals("login")) {
-				login(request, response);
+				String userName = request.getParameter("userName");
+				String password = request.getParameter("password");
+				login(userName, password, request, response);
 			}
 			// Đăng xuất ===========
 			else if (command.equals("logout")) {
@@ -92,10 +97,7 @@ public class AccountController extends HttpServlet {
 		request.setAttribute("loaiList", loaiList);
 	}
 
-	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		String userName = request.getParameter("userName");
-		String password = request.getParameter("password");
-		
+	private void login(String userName, String password, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {		
 		try {
 			Account account = accountBo.GetAccount(userName, password);
 			
@@ -103,18 +105,17 @@ public class AccountController extends HttpServlet {
 			if (account != null) {
 				request.getSession().setAttribute("userName", userName);
 				
-				// Kiểm tra vai trò tài khoản
-				//if (account.getRole().equals("Khách hàng")) {
-					Customer customer = customerBo.GetCustomer(account.getUserName());
-					request.getSession().setAttribute("customer", customer);
-				//}
+				Customer customer = customerBo.GetCustomer(account.getUserName());
+				request.getSession().setAttribute("customer", customer);
 				
 				// Trở lại trang trước đó
+				request.setAttribute("loginResult", true);
 				String prevPage = (String) request.getSession().getAttribute("prevPage");
 				response.sendRedirect(prevPage);
 			}
 			// Nếu đăng nhập thất bại - đi đến trang login
 			else {
+				request.setAttribute("loginResult", false);
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		} catch (SQLException | ClassNotFoundException e) {
@@ -130,15 +131,19 @@ public class AccountController extends HttpServlet {
 	}
 	
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		String name = request.getParameter("customerName"), address = request.getParameter("customerAddress"),
+		String 	name = request.getParameter("customerName"),
+				address = request.getParameter("customerAddress"),
 				phoneNumber = request.getParameter("customerPhoneNumber"),
-				email = request.getParameter("customerEmailAddress"), userName = request.getParameter("accountName"),
-				password = request.getParameter("accountPassword"), role = request.getParameter("accountRole");
+				email = request.getParameter("customerEmailAddress"),
+				userName = request.getParameter("accountName"),
+				password = request.getParameter("accountPassword"),
+				role = request.getParameter("accountRole");
 		try {
 			boolean result = customerBo.AddCustomer(name, address, phoneNumber, email, userName, password, role);
-			if (result)
+			if (result) {
+				login(userName, password, request, response);
 				response.sendRedirect("home");
-			else {
+			} else {
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		} catch (ClassNotFoundException | SQLException e) {

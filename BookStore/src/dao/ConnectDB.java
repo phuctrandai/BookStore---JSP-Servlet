@@ -12,11 +12,7 @@ public class ConnectDB {
 
 	public void Connect() throws ClassNotFoundException, SQLException {
 		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		// System.out.println("Connected !");
-
-		connection = DriverManager
-				.getConnection("jdbc:sqlserver://localhost:1433;databaseName=QLSach;user=sa;password=0946901161");
-		// System.out.println("Connected to database!");
+		connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=QLSach;user=sa;password=0946901161");
 	}
 
 	public void Disconnect() throws SQLException {
@@ -25,10 +21,8 @@ public class ConnectDB {
 
 	public ResultSet getTable(String name) throws ClassNotFoundException, SQLException {
 		ResultSet resultSet;
-
 		PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + name);
 		resultSet = statement.executeQuery();
-
 		return resultSet;
 	}
 

@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import bean.Book;
 import bean.Cart;
-import bean.Customer;
-import bean.Item;
 import bean.Loai;
 import bo.BookBo;
 import bo.CartBo;
@@ -79,14 +76,6 @@ public class CartController extends HttpServlet {
 				updateCart(cartBo, request, response);
 				break;
 			}
-			case "checkout": {
-				try {
-					checkout(cartBo, request, response);
-				} catch (ClassNotFoundException | SQLException e) {
-					e.printStackTrace();
-				}
-				break;
-			}
 			default:
 				break;
 			}
@@ -102,7 +91,6 @@ public class CartController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
@@ -150,29 +138,5 @@ public class CartController extends HttpServlet {
 		request.getSession().setAttribute("cart", cartBo.getCart());
 		response.getWriter().println(nf.format(cartBo.getTotalPrice()) + ";");
 		response.getWriter().println(cartBo.getTotalItem());
-	}
-	
-	private void checkout(CartBo cartBo, HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ClassNotFoundException, SQLException {
-		Object account = request.getSession().getAttribute("userName");
-		if(account == null) {
-			response.sendRedirect("account");
-		}
-		else {
-			Customer customer = (Customer) request.getSession().getAttribute("customer");
-			cartBo.getCart().setMaKhachHang(customer.getId());
-			
-			cartBo.luuHoaDon();
-			
-			response.getWriter().println(customer.getId());
-			response.getWriter().println(cartBo.getCart().isDaThanhToan());
-			response.getWriter().println(cartBo.getCart().getNgayMua());
-			response.getWriter().println(cartBo.getTotalItem());
-			
-			for(Map.Entry<String, Item> i : cartBo.getCart().getItems().entrySet()) {
-				response.getWriter().println(i.getValue().getBook().getId());
-				response.getWriter().println(i.getValue().getQuality());
-			}
-		}
 	}
 }

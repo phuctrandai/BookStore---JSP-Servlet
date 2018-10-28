@@ -43,6 +43,7 @@ body {
 #headerMenu .nav-item {
 	margin-right: 70px;
 	text-align: center;
+	width: 100%;
 }
 #headerMenu .nav-link {
 	color: #000;
@@ -171,8 +172,13 @@ body {
 	float: right;
 }
 
-
-
+/* =============== Bill page =============*/
+.w-10 {
+	width: 10%;
+}
+.w-30 {
+	width: 30%;
+}
 
 
 

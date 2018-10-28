@@ -46,7 +46,7 @@ public class HomeController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		
-		// Lấy danh sách loại =================
+		// Lấy danh sách loại sách =================
 		getDanhSachLoai(request, response);
 		
 		// Lấy lệnh xử lý ===========
@@ -119,9 +119,11 @@ public class HomeController extends HttpServlet {
 
 	private void timKiemSach(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
+		
 		// Tiêu chí tìm kiếm
 		String optionSearch = request.getParameter("optionSearch");
 		HashMap<String, Book> bookList = null;
+		
 		// Tìm theo tựa/tên sách
 		if (optionSearch.equals("0")) {
 			bookList = bookBo.findByName(request.getParameter("keyWord"));

@@ -2,6 +2,7 @@ package bo;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import bean.Book;
@@ -71,5 +72,18 @@ public class CartBo {
 		
 		CartDao cartDao = new CartDao(cart);
 		cartDao.luuHoaDon();
+	}
+	
+	public boolean thanhToan() throws ClassNotFoundException, SQLException {
+		Date ngayMua = new Date(System.currentTimeMillis());
+		cart.setNgayMua(ngayMua);
+		
+		CartDao cartDao = new CartDao(cart);
+		return cartDao.thanhToan();
+	}
+	
+	public ArrayList<Cart> getDanhSachHoaDon(int maKhachHang) throws ClassNotFoundException, SQLException {
+		CartDao cartDao = new CartDao(cart);
+		return cartDao.getDanhSachHoaDon(maKhachHang);
 	}
 }
