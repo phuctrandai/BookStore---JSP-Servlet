@@ -58,21 +58,25 @@ public class AccountController extends HttpServlet {
 		// Xử lý ===========
 		if (command != null) {
 			// Đăng nhập ============
-			if (command.equals("login")) {
+			if (command.equals("doLogin")) {
 				String userName = request.getParameter("userName");
 				String password = request.getParameter("password");
 				login(userName, password, request, response);
 			}
 			// Đăng xuất ===========
-			else if (command.equals("logout")) {
+			else if (command.equals("doLogout")) {
 				logOut(request, response);
 			}
 			// Đăng ký ============
-			else if (command.equals("signUp")) {
+			else if (command.equals("doSignUp")) {
 				signUp(request, response);
 			}
+			// Hiển thị form đăng nhập
+			else {
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
 		} else {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}
 
@@ -82,7 +86,6 @@ public class AccountController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
@@ -104,14 +107,20 @@ public class AccountController extends HttpServlet {
 			// Nếu đăng nhập thành công
 			if (account != null) {
 				request.getSession().setAttribute("userName", userName);
-				
 				Customer customer = customerBo.getCustomer(account.getUserName());
 				request.getSession().setAttribute("customer", customer);
+				request.setAttribute("loginResult", true);
 				
 				// Trở lại trang trước đó
-				request.setAttribute("loginResult", true);
 				String prevPage = (String) request.getSession().getAttribute("prevPage");
-				response.sendRedirect(prevPage);
+				String location = prevPage;
+				if(prevPage.equals("bill")) {
+					String prevCommand = (String) request.getSession().getAttribute("prevCommand");
+					if(prevCommand != null) {
+						location += "?command=" + prevCommand;
+					}
+				}
+				response.sendRedirect(location);
 			}
 			// Nếu đăng nhập thất bại - đi đến trang login
 			else {
@@ -127,6 +136,8 @@ public class AccountController extends HttpServlet {
 		request.getSession().removeAttribute("userName");
 		request.getSession().removeAttribute("customer");
 		request.getSession().removeAttribute("bill");
+		request.getSession().removeAttribute("prevCommand");
+		request.getSession().removeAttribute("prevPage");
 		response.sendRedirect("home");
 	}
 	

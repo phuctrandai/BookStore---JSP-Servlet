@@ -38,7 +38,8 @@ public class BillController extends HttpServlet {
 		// Set tiếng việt ======
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-
+		request.getSession().setAttribute("prevPage", "bill");
+		
 		// Lấy lệnh xử lý ==================
 		HttpSession session = request.getSession();
 		String command = request.getParameter("command");
@@ -116,13 +117,15 @@ public class BillController extends HttpServlet {
 		// Nếu chưa đăng nhập thì chuyển sang trang account
 		Object account = request.getSession().getAttribute("userName");
 		if (account == null) {
-			response.sendRedirect("account");
+			request.getSession().setAttribute("prevCommand", "billHistory");
+			response.sendRedirect("account?command=login");
 		} else {
 			Customer customer = (Customer) request.getSession().getAttribute("customer");
 			int customerId = customer.getId();
 			
 			ArrayList<Bill> listBill = billBo.getListByCustomerId(customerId);
 			
+			request.getSession().removeAttribute("prevCommand");
 			request.setAttribute("billList", listBill);
 			request.setAttribute("command", "billHistory");
 			request.getRequestDispatcher("bill.jsp").forward(request, response);

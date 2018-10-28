@@ -46,6 +46,7 @@ public class HomeController extends HttpServlet {
 		// Set tiếng việt =============
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
+		request.getSession().setAttribute("prevPage", "home");
 		
 		// Lấy danh sách loại sách =================
 		getCategoryList(request, response);

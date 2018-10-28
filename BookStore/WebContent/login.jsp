@@ -31,21 +31,30 @@
 
 	<jsp:include page="categorySideBar.jsp"></jsp:include>
 
-
+	<%	String 	command = request.getParameter("command");
+		String 	loginFrm = "active", 
+				signUpFrm = "fade",
+				mnLogin = "active",
+				mnSignUp = "";
+		if(command.equals("signUp")) {
+			loginFrm = "fade"; signUpFrm = "active"; mnLogin = ""; mnSignUp = "active";
+		}
+	%>
+		
 	<div class="float-left ml-5 w-50">
-
+		
 		<!-- Menu -->
 		<ul class="nav nav-tabs mb-5">
-			<li class="nav-item"><a class="nav-link active text-primary" data-toggle="tab" href="#login">Khách hàng thân thiết</a></li>
-			<li class="nav-item"><a class="nav-link text-danger" data-toggle="tab" href="#signUp">Khách hàng mới</a></li>
+			<li class="nav-item"><a class="nav-link <%=mnLogin %> text-primary" data-toggle="tab" href="#login">Khách hàng thân thiết</a></li>
+			<li class="nav-item"><a class="nav-link <%=mnSignUp %> text-danger" data-toggle="tab" href="#signUp">Khách hàng mới</a></li>
 		</ul>
 
 		<div class="tab-content">
 			<!-- Login -->
-			<div id="login" class="tab-pane container active">
+			<div id="login" class="tab-pane container <%=loginFrm%>">
 				<h3 class="text-primary">Đăng nhập</h3><br>
 				<form action="account" method="post">
-					<input type="hidden" name="command" value="login">
+					<input type="hidden" name="command" value="doLogin">
 					<div class="form-group">
 						<label for="userName">Tên tài khoản:</label>
 						<input type="text" class="form-control" id="userName" name="userName" placeholder=""></input>
@@ -58,10 +67,10 @@
 				</form>
 			</div>
 			<!-- Sign up -->
-			<div id="signUp" class="tab-pane container fade">
+			<div id="signUp" class="tab-pane container <%=signUpFrm%>">
 				<h3 class="text-danger">Đăng ký</h3><br>
 				<form action="account" method="post">
-					<input type="hidden" name="command" value="signUp">
+					<input type="hidden" name="command" value="doSignUp">
 					<div class="form-group">
 						<label for="accountName">Tên tài khoản:</label>
 						<input type="text" class="form-control" id="accountName" name="accountName">

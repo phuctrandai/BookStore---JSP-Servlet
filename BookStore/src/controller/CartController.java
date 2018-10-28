@@ -47,6 +47,7 @@ public class CartController extends HttpServlet {
 		// Set tiếng việt ======
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
+		request.getSession().setAttribute("prevPage", "cart");
 
 		// ==================
 		HttpSession session = request.getSession();

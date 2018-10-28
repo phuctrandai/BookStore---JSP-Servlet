@@ -8,7 +8,6 @@
 	<%
 	Bill bill = (Bill) session.getAttribute("bill");
 	BillBo billBo = new BillBo(bill);
-	String userName = (String) session.getAttribute("userName");
 	%>
 	
 	<header id="header">
@@ -52,7 +51,8 @@
 		    <li class="nav-item col-xs-12">
 		    	<img alt="icon1.png" src="./images/icon3.png">
 		      	
-		      	<%if(userName == null) {%>
+		      	<%String userName = (String) session.getAttribute("userName");
+		      	if(userName == null) {%>
 		      	
 		      	<a class="nav-link" data-toggle="modal" data-target="#loginForm" style="cursor: pointer;" title="Đăng nhập">
 		      		Đăng nhập
@@ -67,7 +67,7 @@
 		      		<div class="dropdown-menu dropdown-menu-right" style="margin-top: 10px; right: -25px;">
 				    	<a class="dropdown-item" href="#">Tài khoản</a>
 				    	<div class="dropdown-divider"></div>
-					    <a class="dropdown-item" href="account?command=logout">Đăng xuất</a>
+					    <a class="dropdown-item" href="account?command=doLogout">Đăng xuất</a>
 				  	</div>
 				</div><br>
 				<span style="font-weight: normal; font-size: 13px;">Tài khoản</span>
@@ -109,11 +109,11 @@
 						<input type="password" name="password" id="password" class="form-control" autocomplete="password"><br>
 						
 						<div>
-							<a href="account">Đăng ký</a>
+							<a href="account?command=signUp">Đăng ký</a>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<input type="hidden" name="command" value="login">
+						<input type="hidden" name="command" value="doLogin">
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Thôi</button>
 						<button type="submit" class="btn btn-success" id="loginBtn">Đăng nhập</button>
 					</div>
