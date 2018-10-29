@@ -82,7 +82,6 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
@@ -121,16 +120,21 @@ public class HomeController extends HttpServlet {
 
 	private void findBook(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
-		
 		// Tiêu chí tìm kiếm
 		String optionSearch = request.getParameter("optionSearch");
+		String keyWord = request.getParameter("keyWord");
 		HashMap<String, Book> bookList = null;
 		
-		// Tìm theo tựa/tên sách
-		if (optionSearch.equals("0")) {
-			bookList = bookBo.findByName(request.getParameter("keyWord"));
+		if(keyWord != "") {
+			// Tìm theo tựa/tên sách
+			if (optionSearch.equals("0")) {	
+				bookList = bookBo.findByName(keyWord);
+			}
 		}
-		request.setAttribute("totalPage", 1);
+		
+		if(bookList != null) {
+			request.setAttribute("totalPage", bookList.size() / BOOK_PER_PAGE);
+		}
 		request.setAttribute("bookList", bookList);
 	}
 }
