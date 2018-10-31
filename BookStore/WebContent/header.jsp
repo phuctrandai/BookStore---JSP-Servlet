@@ -1,5 +1,4 @@
 <%@page import="bean.Bill"%>
-<%@page import="bo.BillBo"%>
 <%@page import="bean.Book"%>
 <%@page import="bean.Item"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -7,7 +6,6 @@
 
 	<%
 	Bill bill = (Bill) session.getAttribute("bill");
-	BillBo billBo = new BillBo(bill);
 	%>
 	
 	<header id="header">
@@ -39,7 +37,7 @@
 		      	<span style="font-size: 13px; font-weight: normal;">Đang có ( <span id="totalItem">
 		      	<%
 		      		if(bill != null) 
-		      			out.print(billBo.getTotalItem());
+		      			out.print(bill.getTotalItem());
      				else
 		      			out.print(0);
 		      	%> </span> )
@@ -80,15 +78,18 @@
 	
 	
 	<!-- top nav -->
-	<nav id="topNav" class="navbar navbar-expand-sm justify-content-center">
-		<ul class="navbar-nav">
-			<li class="nav-item col-xs-12"><a class="nav-link" href="home">Trang chủ</a></li>
-			<li class="nav-item col-xs-12"><a class="nav-link" href="#">Gian hàng</a></li>
-			<li class="nav-item col-xs-12"><a class="nav-link" href="#">Giảm giá đặc biệt</a></li>
-			<li class="nav-item col-xs-12"><a class="nav-link" href="#">Hướng dẫn mua hàng</a></li>
-			<li class="nav-item col-xs-12"><a class="nav-link" href="#">Liên hệ</a></li>
-			<li class="nav-item col-xs-12"><a class="nav-link" href="#">Giới thiệu</a></li>
+	<nav id="topNav" class="navbar navbar-expand-sm justify-content-center w-100 p-0">
+		<ul class="navbar-nav w-100 p-0">
+			<li class="nav-item col-md-2 col-xs-12"><a class="nav-link" href="home">Trang chủ</a></li>
+			<li class="nav-item col-md-2 col-xs-12"><a class="nav-link" href="#">Gian hàng</a></li>
+			<li class="nav-item col-md-2 col-xs-12"><a class="nav-link" href="#">Giảm giá đặc biệt</a></li>
+			<li class="nav-item col-md-2 col-xs-12"><a class="nav-link" href="#">Hướng dẫn mua hàng</a></li>
+			<li class="nav-item col-md-2 col-xs-12"><a class="nav-link" href="#">Liên hệ</a></li>
+			<li class="nav-item col-md-2 col-xs-12"><a class="nav-link" href="#">Giới thiệu</a></li>
 		</ul>
+		<a href="" class="icon" onclick="toggleTopNav()">
+		  	<i class="fa fa-bars"></i>
+		</a>
 	</nav>
 	
 	<!-- Login form -->

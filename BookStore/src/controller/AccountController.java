@@ -2,8 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Account;
-import bean.Category;
 import bean.Customer;
 import bo.AccountBo;
-import bo.CategoryBo;
 import bo.CustomerBo;
 
 /**
@@ -24,7 +20,6 @@ import bo.CustomerBo;
 public class AccountController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private CategoryBo categoryBo = null;
 	private CustomerBo customerBo = null;
 	private AccountBo accountBo = null;
 
@@ -34,7 +29,6 @@ public class AccountController extends HttpServlet {
 	public AccountController() {
 		super();
 
-		categoryBo = new CategoryBo();
 		customerBo = new CustomerBo();
 		accountBo = new AccountBo();
 	}
@@ -45,32 +39,33 @@ public class AccountController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// set tiếng việt =====
+		// Set tiếng việt =====
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-
-		// Lấy danh sách loại =================
-		getCategoryList(request, response);
 		
 		// Lấy lệnh xử lý ==========
 		String command = request.getParameter("command");
 		
 		// Xử lý ===========
 		if (command != null) {
+			
 			// Đăng nhập ============
 			if (command.equals("doLogin")) {
 				String userName = request.getParameter("userName");
 				String password = request.getParameter("password");
 				login(userName, password, request, response);
 			}
+			
 			// Đăng xuất ===========
 			else if (command.equals("doLogout")) {
 				logOut(request, response);
 			}
+			
 			// Đăng ký ============
 			else if (command.equals("doSignUp")) {
 				signUp(request, response);
 			}
+			
 			// Hiển thị form đăng nhập
 			else {
 				request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -89,25 +84,24 @@ public class AccountController extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private void getCategoryList(HttpServletRequest request, HttpServletResponse response) {
-
-		ArrayList<Category> categoryList = null;
+	/*
+	 * Đăng nhập
+	 */
+	private void login(String userName, String password, HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, ServletException {		
+		
 		try {
-			categoryList = categoryBo.getList();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		request.setAttribute("categoryList", categoryList);
-	}
-
-	private void login(String userName, String password, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {		
-		try {
+			// Tìm tài khoản tương ứng
 			Account account = accountBo.getAccount(userName, password);
 			
-			// Nếu đăng nhập thành công
+			// Nếu có thì login thành công
 			if (account != null) {
-				request.getSession().setAttribute("userName", userName);
+				
+				// Lấy tài khoản khách hàng
 				Customer customer = customerBo.getCustomer(account.getUserName());
+				
+				// Lưu lại quyền đăng nhập
+				request.getSession().setAttribute("userName", userName);
 				request.getSession().setAttribute("customer", customer);
 				request.setAttribute("loginResult", true);
 				
@@ -122,6 +116,7 @@ public class AccountController extends HttpServlet {
 				}
 				response.sendRedirect(location);
 			}
+			
 			// Nếu đăng nhập thất bại - đi đến trang login
 			else {
 				request.setAttribute("loginResult", false);
@@ -132,6 +127,9 @@ public class AccountController extends HttpServlet {
 		}
 	}
 	
+	/*
+	 * Đăng xuất
+	 */
 	private void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.getSession().removeAttribute("userName");
 		request.getSession().removeAttribute("customer");
@@ -141,7 +139,11 @@ public class AccountController extends HttpServlet {
 		response.sendRedirect("home");
 	}
 	
+	/*
+	 * Đăng ký tài khoản khách hàng
+	 */
 	private void signUp(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		
 		String 	name = request.getParameter("customerName"),
 				address = request.getParameter("customerAddress"),
 				phoneNumber = request.getParameter("customerPhoneNumber"),
@@ -153,7 +155,7 @@ public class AccountController extends HttpServlet {
 			boolean result = customerBo.addCustomer(name, address, phoneNumber, email, userName, password, role);
 			if (result) {
 				login(userName, password, request, response);
-				response.sendRedirect("home");
+				//response.sendRedirect("home");
 			} else {
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}

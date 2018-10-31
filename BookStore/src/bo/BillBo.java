@@ -3,8 +3,6 @@ package bo;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
-
 import bean.Bill;
 import bean.Book;
 import bean.Item;
@@ -51,18 +49,6 @@ public class BillBo {
 		if (bill.getItems().containsKey(key)) {
 			bill.getItems().remove(key);
 		}
-	}
-
-	public int getTotalItem() {
-		return bill.getItems().size();
-	}
-
-	public long getTotalPrice() {
-		long totalPrice = 0;
-		for (Map.Entry<String, Item> s : bill.getItems().entrySet()) {
-			totalPrice += s.getValue().getQuantity() * s.getValue().getBook().getPrice();
-		}
-		return totalPrice;
 	}
 
 	public void saveBill() throws ClassNotFoundException, SQLException {

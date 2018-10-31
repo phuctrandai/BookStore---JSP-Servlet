@@ -54,8 +54,9 @@ public class BillController extends HttpServlet {
 		
 		// Xử lý nghiệp vụ ================
 		if(command != null) {
+			
 			switch(command) {
-			// Thanh toán đơn hàng ==========
+			// Xác nhận đơn hàng
 			case "checkout": {
 				try {
 					checkOut(cartBo, request, response);
@@ -64,6 +65,7 @@ public class BillController extends HttpServlet {
 				}
 				break;
 			}
+			// Quản lý đơn hàng
 			case "billHistory": {
 				try {
 					showBillHistory(cartBo, request, response);
@@ -72,6 +74,7 @@ public class BillController extends HttpServlet {
 				}
 				break;
 			}
+			// Thanh toán đơn hàng
 			case "pay": {
 				try {
 					pay(cartBo, request, response);
@@ -80,6 +83,7 @@ public class BillController extends HttpServlet {
 				}
 				break;
 			}
+			// 
 			default: 
 				break;
 			}
@@ -97,29 +101,44 @@ public class BillController extends HttpServlet {
 		doGet(request, response);
 	}
 
+	/**
+	 * Xác nhận đơn hàng
+	 */
 	private void checkOut(BillBo billBo, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ClassNotFoundException, SQLException, ServletException {
+		
 		// Nếu chưa đăng nhập thì chuyển sang trang account
 		Object account = request.getSession().getAttribute("userName");
 		if (account == null) {
-			response.sendRedirect("account");
+			
+			// Lưu lại trang trước khi đăng nhập
+			request.getSession().setAttribute("prevCommand", "checkout");
+			response.sendRedirect("account?command=login");
+		
 		} else {
+			
 			Customer customer = (Customer) request.getSession().getAttribute("customer");
 			billBo.getBill().setCustomerId(customer.getId());
-
 			billBo.saveBill();
-			request.setAttribute("command", "checkout");
-			request.getRequestDispatcher("bill.jsp").forward(request, response);
+			
+			request.getSession().removeAttribute("prevCommand");
+			request.getRequestDispatcher("billCheckout.jsp").forward(request, response);
 		}
 	}
 	
-	private void showBillHistory(BillBo billBo, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, SQLException {
+	private void showBillHistory(BillBo billBo, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, ClassNotFoundException, SQLException {
+		
 		// Nếu chưa đăng nhập thì chuyển sang trang account
 		Object account = request.getSession().getAttribute("userName");
 		if (account == null) {
+			
+			// Lưu lại trang trước khi đăng nhập
 			request.getSession().setAttribute("prevCommand", "billHistory");
 			response.sendRedirect("account?command=login");
+		
 		} else {
+		
 			Customer customer = (Customer) request.getSession().getAttribute("customer");
 			int customerId = customer.getId();
 			
@@ -127,12 +146,13 @@ public class BillController extends HttpServlet {
 			
 			request.getSession().removeAttribute("prevCommand");
 			request.setAttribute("billList", listBill);
-			request.setAttribute("command", "billHistory");
-			request.getRequestDispatcher("bill.jsp").forward(request, response);
+			request.getRequestDispatcher("billHistory.jsp").forward(request, response);
 		}
 	}
 	
-	private void pay(BillBo billBo, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
+	private void pay(BillBo billBo, HttpServletRequest request, HttpServletResponse response) 
+			throws ClassNotFoundException, SQLException, ServletException, IOException {
+		
 		Customer customer = (Customer) request.getSession().getAttribute("customer");
 		billBo.getBill().setCustomerId(customer.getId());
 		
@@ -141,7 +161,7 @@ public class BillController extends HttpServlet {
 			request.getSession().removeAttribute("bill");
 			request.getRequestDispatcher("paySuccess.jsp").forward(request, response);
 		} else {
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			//request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}
 }

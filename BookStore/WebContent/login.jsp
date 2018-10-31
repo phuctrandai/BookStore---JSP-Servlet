@@ -29,8 +29,6 @@
 
 	<jsp:include page="search.jsp"></jsp:include>
 
-	<jsp:include page="categorySideBar.jsp"></jsp:include>
-
 	<%	String 	command = request.getParameter("command");
 		String 	loginFrm = "active", 
 				signUpFrm = "fade",
@@ -41,7 +39,7 @@
 		}
 	%>
 		
-	<div class="float-left ml-5 w-50">
+	<div class="ml-auto mr-auto w-50">
 		
 		<!-- Menu -->
 		<ul class="nav nav-tabs mb-5">

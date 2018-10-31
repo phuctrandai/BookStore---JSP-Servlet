@@ -44,6 +44,7 @@ public class CartController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		// Set tiếng việt ======
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -67,16 +68,20 @@ public class CartController extends HttpServlet {
 		// Xử lý nghiệp vụ =================
 		if (command != null) {
 			switch (command) {
+			
 			// Thêm một sản phẩm vào giỏ hàng
 			case "add": {
 				addToBill(cartBo, request, response);
 				break;
 			}
+			
 			// Cập nhật số lượng của sản phẩm trong giỏ hàng
 			case "modify": {
 				updateBill(cartBo, request, response);
 				break;
 			}
+			
+			//
 			default:
 				break;
 			}
@@ -94,7 +99,10 @@ public class CartController extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
+	/*
+	 * Lấy danh sách loại sách
+	 */
 	private void getListCategory(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ArrayList<Category> categoryList = null;
@@ -105,39 +113,55 @@ public class CartController extends HttpServlet {
 		}
 		request.setAttribute("categoryList", categoryList);
 	}
-
+	
+	/*
+	 * Thêm vào hóa đơn
+	 */
 	private void addToBill(BillBo billBo, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		// Lấy sách theo mã
 		String bookId = request.getParameter("bookId");
-		Book book = null;
 		try {
-			book = bookBo.getById(bookId);
+			Book book = bookBo.getById(bookId);
+			billBo.addToBill(book);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		billBo.addToBill(book);
 		request.getSession().setAttribute("bill", billBo.getBill());
 		request.getRequestDispatcher("cart.jsp").forward(request, response);
 	}
-
+	
+	/*
+	 * Cập nhật hóa đơn
+	 */
 	private void updateBill(BillBo billBo, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
+		
 		// Lấy sách theo mã
 		String bookId = request.getParameter("bookId");
-
+		
+		// Cập nhật số lượng sách trong hóa đơn
 		if (request.getParameter("updateBtn") != null) {
+			
 			int itemQuantity = Integer.parseInt(request.getParameter("itemQuality"));
 			billBo.updateQuantity(bookId, itemQuantity);
-		} else if (request.getParameter("removeBtn") != null) {
-			billBo.removeFromBill(bookId);
+		
 		}
-		// Currency format =================
-		Locale locale = new Locale("vie", "VN");
-		NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
+		// Xóa sách khỏi hóa đơn
+		else if (request.getParameter("removeBtn") != null) {
+			
+			billBo.removeFromBill(bookId);
+		
+		}
+		
+		// Định dạnh hiển thị tiền =================
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vie", "VN"));
 
 		request.getSession().setAttribute("cart", billBo.getBill());
-		response.getWriter().println(nf.format(billBo.getTotalPrice()) + ";");
-		response.getWriter().println(billBo.getTotalItem());
+		
+		// Trả kết quả về ( ajax )
+		response.getWriter().println(nf.format(billBo.getBill().getTotalPrice()) + ";");
+		response.getWriter().println(billBo.getBill().getTotalItem());
 	}
 }

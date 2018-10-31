@@ -1,10 +1,7 @@
-<%@page import="bo.BillBo"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="bean.Item"%>
-<%@page import="bean.Book"%>
-<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
+<%@page import="bean.Item"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="bean.Bill"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
@@ -24,7 +21,6 @@
 	
 	<%
 		Bill bill = (Bill) session.getAttribute("bill");
-		BillBo billBo = new BillBo(bill);
 	%>
 	
 	<jsp:include page="header.jsp"></jsp:include>
@@ -68,7 +64,7 @@
 			%>
 <!-- Show when cart has no item -->
 			<tr>
-			<td colspan="2" id="emptyCart" <%if(billBo.getTotalItem() > 0) { %>style="visibility:collapse;" <%}%>>
+			<td colspan="2" id="emptyCart" <%if(bill.getTotalItem() > 0) { %>style="visibility:collapse;" <%}%>>
 				<h2 style="display: inline-block">
 					<span style="color: #F4B344">Hiện đang trống</span>
 				</h2>
@@ -79,10 +75,10 @@
 			</tr>
 			<tr>
 <!-- Show when cart has item -->
-			<td colspan="2" id="hasItem" <%if(billBo.getTotalItem() == 0) { %>style="visibility:collapse;"<%}%>>
+			<td colspan="2" id="hasItem" <%if(bill.getTotalItem() == 0) { %>style="visibility:collapse;"<%}%>>
 				<h2>
 					<span style="color: #F4B344">Tổng cộng:</span>
-					<span id="totalPrice"><%="   " + nf.format(billBo.getTotalPrice())%></span>
+					<span id="totalPrice"><%="   " + nf.format(bill.getTotalPrice())%></span>
 				</h2><br>
 				<a class="btn btn-success" href="home">
 					Tiếp tục mua hàng

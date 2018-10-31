@@ -43,6 +43,7 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		// Set tiếng việt =============
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -87,6 +88,7 @@ public class HomeController extends HttpServlet {
 
 	private void getCategoryList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		ArrayList<Category> categoryList = null;
 		try {
 			categoryList = categoryBo.getList();
@@ -98,10 +100,12 @@ public class HomeController extends HttpServlet {
 
 	private void getBook(HttpServletRequest request, HttpServletResponse response)
 			throws ClassNotFoundException, SQLException {
+		
 		HashMap<String, Book> bookList = null;
 		String categoryId = request.getParameter("categoryId");
+		
 		// Phân trang
-		int pageNumber = 1;
+		int pageNumber = 1; // Mặc định
 		if (request.getParameter("pageNumber") != null) {
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 		}
@@ -110,7 +114,7 @@ public class HomeController extends HttpServlet {
 			bookList = bookBo.getList(pageNumber, BOOK_PER_PAGE);
 			request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE));
 		}
-		// Lấy sách theo loại =========
+		// Lấy sách theo loại
 		else {
 			bookList = bookBo.getByCategoryId(categoryId, pageNumber, BOOK_PER_PAGE);
 			request.setAttribute("totalPage", bookBo.getTotalPage(BOOK_PER_PAGE, categoryId));
@@ -120,6 +124,7 @@ public class HomeController extends HttpServlet {
 
 	private void findBook(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
+		
 		// Tiêu chí tìm kiếm
 		String optionSearch = request.getParameter("optionSearch");
 		String keyWord = request.getParameter("keyWord");

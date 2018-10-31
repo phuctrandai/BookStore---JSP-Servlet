@@ -2,6 +2,7 @@ package bean;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Bill {
 	private HashMap<String, Item> items;
@@ -52,5 +53,17 @@ public class Bill {
 		this.customerId = customerId;
 		this.dOP = dOP;
 		this.paid = paid;
-	}	
+	}
+	
+	public int getTotalItem() {
+		return this.getItems().size();
+	}
+	
+	public long getTotalPrice() {
+		long totalPrice = 0;
+		for (Map.Entry<String, Item> s : this.getItems().entrySet()) {
+			totalPrice += s.getValue().getQuantity() * s.getValue().getBook().getPrice();
+		}
+		return totalPrice;
+	}
 }

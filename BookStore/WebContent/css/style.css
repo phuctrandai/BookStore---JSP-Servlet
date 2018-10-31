@@ -64,14 +64,10 @@ body {
 }
 
 #topNav {
-	width: 100%;
-    padding: 0px;
     font-size: 13px;
 }
 #topNav ul {
-    height: 100%;
     display: flex;
-    width: 100%;
 }
 #topNav .nav-link {
     background-color: transparent;
@@ -83,11 +79,23 @@ body {
 #topNav .nav-item {
 	background-color: #9b231c;
     transition: 0.5s;
-    width: 100%;
     text-align: center;
 }
 #topNav .nav-item:hover {
 	background-color: #50110e;
+}
+#topNav .icon {
+	color: #000;
+	display: none;
+	font-size: 18px;
+	position: absolute;
+	right: 5px;
+	z-index: 99;
+}
+@media screen and (max-width: 600px) {
+	#topNav .nav-item:not(:first-child) { display: none;}
+	#topNav .nav-item {	text-align: left; }
+	#topNav .icon { display: inline-block; }
 }
 /*========== Content ===========*/
 #contentView {
