@@ -25,42 +25,42 @@ $(document).ready(function(){
     });
     
     // Cập nhật số lượng sách trong giỏ hàng
-    $('.updateBtn').click(function() {
+    $('.updateBtn').click(function(e) {
         var bookId = $(this).attr("id");
-        var itemQuality = $('#itemQuality'+bookId).val();
-        $.post('cart',
+        var itemQuantity = $('#itemQuantity'+bookId).val();
+        e.preventDefault();
+        $.post('bill',
         {
             updateBtn : "updateBtn",
             command : "modify",
             bookId : bookId,
-            itemQuality : itemQuality
+            itemQuantity : itemQuantity
         }, function(data, status) {
-            
             var str = data.split(";");
-            $('#totalPrice').html(str[0]);
+            $('.totalPrice').html(str[0]);
         });
     });
     
     // Xóa sách khỏi giỏ hàng
-    $('.removeBtn').click(function() {
+    $('.removeBtn').click(function(e) {
         var bookId = $(this).attr("id");
-        $.post('cart',
+        e.preventDefault();
+        $.post('bill',
         {   removeBtn : "removeBtn",
             command : "modify",
             bookId : bookId
         }, function(data, status) {
             var str = data.split(";");
-            $('#totalPrice').html(str[0]);
-            $('tr[id='+bookId+']').remove();
+            $('.totalPrice').html(str[0]);
+            $('div[id='+bookId+']').remove();
             $('#totalItem').html(str[1]);
 
             if(str[1] == 0) {
-                $('#emptyCart').css("visibility","visible");
-                $('#hasItem').remove();
-                
+                $('.emptyCart').css("display","block");
+                $('.emptyCart').css("visibility","visible");
+                $('.hasItem').remove();
             } else {
-                $('#emptyCart').css("visibility","collapse");
-                $('#hasItem').css("visibility","visible");
+                $('.emptyCart').css("visibility","collapse");
             }
         });
     });

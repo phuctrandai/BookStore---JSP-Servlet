@@ -19,10 +19,12 @@
 	
 	<jsp:include page="search.jsp"></jsp:include>
 	
-	<div class="w-75 m-auto">
-		<h4 class="float-left" style="display:inline-block; color: #1e7e34; font-size: 2em; font-weight: bold;">Thanh toán thành công!</h4>
-		<a class="btn btn-success ml-5 float-left" href="home">
-			Xem thêm sách
+	<div class="w-75 ml-auto mr-auto card p-5" style="text-align: center;">
+		<h2 style="color: #F4B344">
+			Thanh toán thành công !
+		</h2><br>
+		<a href="home" class="btn btn-warning ml-auto mr-auto w-25">
+			Xem thêm
 		</a>
 	</div>
 	

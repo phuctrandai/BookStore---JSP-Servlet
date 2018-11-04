@@ -18,19 +18,20 @@
 	
 		for (Map.Entry<String, Book> item : bookList.entrySet()) {
 		%>
-		<div class="p-2 col-sm-3 col-6 card bookCol">
+		<div class="p-2 col-sm-3 col-6 card ml-4 mr-4 mb-4 book-col">
 			<a href="#">
 				<img class="card-img-top" height="250rem" alt="<%=item.getValue().getName() %>" src="<%=item.getValue().getImage() %>">
 			</a><br>
-			<div class="book-col-body">
-				<a class="add-to-cart" href="cart?command=add&bookId=<%=item.getValue().getId()%>">
-					<img src="./images/buynow.jpg">
-				</a><br><br>
-				<label class="card-title" style="color: #000; font-size: 16px; margin: 0px;"><strong><%= item.getValue().getName()%></strong></label><br>
-				<label><b>Giá bán: <span style="color:#6d2524; font-size:medium; font-weight:bold"><%=nf.format(item.getValue().getPrice()) %></span></b></label>
+			<div class="card-body">
+				<label class="card-title" style="color: #000; font-size: 16px;"><strong><%= item.getValue().getName()%></strong></label><br>
+				<label class=""><b>Giá bán: <span style="color:#6d2524; font-size:medium; font-weight:bold"><%=nf.format(item.getValue().getPrice()) %></span></b></label>
+				<br>
+				<p class=""><b>Hiện có:</b> <%=item.getValue().getQuantity()%> quyển</p>
 			</div>
-			<div class="book-col-footer">
-				<p class="book-quantity"><%=item.getValue().getQuantity() %></p>
+			<div class="card-footer" style="text-align: center; background: #fff;">
+				<a class="btn text-light w-100" style="background: #9b231c;" href="bill?command=add&bookId=<%=item.getValue().getId()%>">
+					Thêm vào giỏ hàng
+				</a>
 			</div>
 		</div>
 		<%}%>

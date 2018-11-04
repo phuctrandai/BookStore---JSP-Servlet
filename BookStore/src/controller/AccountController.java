@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Account;
+import bean.Bill;
 import bean.Customer;
 import bo.AccountBo;
+import bo.BillBo;
 import bo.CustomerBo;
 
 /**
@@ -100,10 +102,18 @@ public class AccountController extends HttpServlet {
 				// Lấy tài khoản khách hàng
 				Customer customer = customerBo.getCustomer(account.getUserName());
 				
+				// Lưu các sản phẩm trong giỏ hàng vào csdl
+				Object bill = request.getSession().getAttribute("bill");
+				if(bill != null) {
+					Bill b = (Bill) bill;
+					b.setCustomerId(customer.getId());
+					BillBo billBo = new BillBo(b);
+					billBo.saveBill(customer.getId(), b.getItems());
+				}
+				
 				// Lưu lại quyền đăng nhập
 				request.getSession().setAttribute("userName", userName);
 				request.getSession().setAttribute("customer", customer);
-				request.setAttribute("loginResult", true);
 				
 				// Trở lại trang trước đó
 				String prevPage = (String) request.getSession().getAttribute("prevPage");
@@ -111,7 +121,11 @@ public class AccountController extends HttpServlet {
 				if(prevPage.equals("bill")) {
 					String prevCommand = (String) request.getSession().getAttribute("prevCommand");
 					if(prevCommand != null) {
-						location += "?command=" + prevCommand;
+						if(prevCommand.equals("pay")) {
+							
+						} else {
+							location += "?command=" + prevCommand;
+						}
 					}
 				}
 				response.sendRedirect(location);
@@ -119,7 +133,6 @@ public class AccountController extends HttpServlet {
 			
 			// Nếu đăng nhập thất bại - đi đến trang login
 			else {
-				request.setAttribute("loginResult", false);
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			}
 		} catch (SQLException | ClassNotFoundException e) {

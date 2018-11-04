@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.Bill;
 import bean.Book;
 import bean.Category;
+import bean.Customer;
+import bo.BillBo;
 import bo.BookBo;
 import bo.CategoryBo;
 
@@ -27,6 +30,8 @@ public class HomeController extends HttpServlet {
 
 	private CategoryBo categoryBo = null;
 	private BookBo bookBo = null;
+	private BillBo billBo = null;
+	private Bill bill;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -35,6 +40,7 @@ public class HomeController extends HttpServlet {
 		super();
 		bookBo = new BookBo();
 		categoryBo = new CategoryBo();
+		billBo = new BillBo();
 	}
 
 	/**
@@ -44,36 +50,58 @@ public class HomeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		// Set tiếng việt =============
+// Set tiếng việt =============
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		request.getSession().setAttribute("prevPage", "home");
 		
-		// Lấy danh sách loại sách =================
+// Lấy danh sách loại sách =================
 		getCategoryList(request, response);
 		
-		// Lấy lệnh xử lý ===========
+// Lấy giỏ hàng =============
+		int customerId = -1;
+		Object c = request.getSession().getAttribute("customer");
+		// Neu da dang nhap thi lay hoa don cua khach hang chua thanh toan tu csdl
+		if(c != null) {
+			Customer customer = (Customer) c;
+			customerId = customer.getId();
+			try {
+				bill = billBo.getBill(customerId);
+				request.getSession().setAttribute("bill", bill);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+		// Neu chua dang nhap thi lay tu session
+		} else {
+			bill = (Bill) request.getSession().getAttribute("bill");
+			if(bill == null) bill = new Bill();
+		}
+		
+// Lấy lệnh xử lý ===========
 		String command = request.getParameter("command");
-
-		try {
-			if (command != null) {
-				// Tìm kiếm ================
-				if (command.equals("search")) {
-					findBook(request, response);
-				}
-				else if(command.equals("")) {
-					
-				}
-			}
-			// Lấy tất cả sách =========
-			else {
+		if (command == null) {
+			try {
 				getBook(request, response);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+		}
+		// Lấy tất cả sách =========
+		else {
+			// Tìm kiếm ================
+			if (command.equals("search")) {
+				try {
+					findBook(request, response);
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			else if(command.equals("")) {
+				
+			}
 		}
 
-		// Forward ========================
+// Forward ========================
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 	}
 
@@ -126,15 +154,15 @@ public class HomeController extends HttpServlet {
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
 		
 		// Tiêu chí tìm kiếm
-		String optionSearch = request.getParameter("optionSearch");
+		//String optionSearch = request.getParameter("optionSearch");
 		String keyWord = request.getParameter("keyWord");
 		HashMap<String, Book> bookList = null;
 		
 		if(keyWord != "") {
 			// Tìm theo tựa/tên sách
-			if (optionSearch.equals("0")) {	
+		//	if (optionSearch.equals("0")) {	
 				bookList = bookBo.findByName(keyWord);
-			}
+			//}
 		}
 		
 		if(bookList != null) {
