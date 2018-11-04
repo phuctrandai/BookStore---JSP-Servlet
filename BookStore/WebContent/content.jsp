@@ -9,7 +9,7 @@
     pageEncoding="utf-8"%>
 
 	<!-- Content -->
-	<div id="contentView" class="d-flex flex-wrap">
+	<div class="d-flex flex-wrap float-right w-75">
 	<%    
 	HashMap<String, Book> bookList = (HashMap<String, Book>) request.getAttribute("bookList");
 	
@@ -35,30 +35,29 @@
 			</div>
 		</div>
 		<%}%>
+		<!-- Pagination -->
+		<div class="container">
+			<ul class="pagination justify-content-center mt-3 ml-20 w-50">
+			<%
+			int pageNumber = 1;
+			if (request.getParameter("pageNumber") != null)
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			
+			int totalPage = (int) request.getAttribute("totalPage");
+			
+			if (totalPage != 0) {
+				for(int j=1 ; j<=totalPage ; j++) {%>
+		    	
+		    	<li class="page-item  <%if(pageNumber == j) out.print("active"); %>">
+		    		<a class="page-link" href="home?pageNumber=<%=j%>"><%=j %></a>
+	    		</li>
+				
+				<%}
+			}%>
+			</ul>
+		</div>
 	</div>
 	
-	<!-- Pagination -->
-	<div class="container" style="clear: right">
-		<ul class="pagination justify-content-center" style="margin:20px 0">
-		<%
-		int pageNumber = 1;
-		if (request.getParameter("pageNumber") != null)
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		
-		int totalPage = (int) request.getAttribute("totalPage");
-		
-		if (totalPage != 0) {
-			for(int j=1 ; j<=totalPage ; j++) {%>
-	    	
-	    	<li class="page-item  <%if(pageNumber == j) out.print("active"); %>">
-	    		<a class="page-link" href="home?pageNumber=<%=j%>"><%=j %></a>
-    		</li>
-			
-			<%}
-		}%>
-		</ul>
-	</div>
-			
 	<%
 	} else {%>
 		<h2 style="margin: 30px">Loại sách này hiện chưa có !</h2>

@@ -45,7 +45,7 @@
 					<div class="card mb-3" id="<%=list.getKey()%>">
 						<div class="card-body">
 							<div class="w-10 float-left">
-								<img alt="Hình ảnh sách" src="<%=list.getValue().getBook().getImage()%>" class="bookImage" />
+								<img alt="Hình ảnh sách" src="<%=list.getValue().getBook().getImage()%>" class="book-image" />
 							</div>
 							<div class="w-50 float-left">
 								<label style = "border: none; font-size: 18px; width: 100%;"><%=list.getValue().getBook().getName()%></label>

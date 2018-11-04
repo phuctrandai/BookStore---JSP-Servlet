@@ -41,21 +41,21 @@
 					<div class="w-100">
 						
 							<div class="row">
-								<div class="col-sm-12 col-md-2">Mã hóa đơn</div>
+								<div class="col-md-2">Mã hóa đơn</div>
 								<div class="col-sm-12 col-md-2">Ngày lập</div>
-								<div class="col-sm-12 col-md-2">Tổng tiền</div>
 								<div class="col-sm-12 col-md-2">Trạng thái</div>
+								<div class="col-sm-12 col-md-2">Tổng tiền</div>
 								<div class="col-sm-12 col-md-4"></div>
 							</div>
 						
 							<div class="row">
 								<div class="col-sm-12 col-md-2 text-dark"><%=billList.get(i).getId()%></div>
 								<div class="col-sm-12 col-md-2 text-dark"><%=billList.get(i).getDOP() %></div>
-								<div class="col-sm-12 col-md-2 text-success"><%=nf.format(billList.get(i).getTotalPrice()) %></div>
 								<div class="col-sm-12 col-md-2">
 									<%if(billList.get(i).isPaid()) out.print("<span class='text-success'>Đã thanh toán</span>"); 	
 									else out.print("<span class='text-danger'>Chưa thanh toán</span>"); %>
 								</div>
+								<div class="col-sm-12 col-md-2 text-success"><%=nf.format(billList.get(i).getTotalPrice()) %></div>
 								<div class="col-sm-12 col-md-4">
 									<a class="float-left" data-toggle="collapse" href="#collapse<%=i%>">
 							         	Xem chi tiết
@@ -74,9 +74,9 @@
 						<%
 						HashMap<String, Item> items = billList.get(i).getItems();
 						for(Map.Entry<String, Item> item : items.entrySet()) {%>
-							<div class="container w-100">
+							<div class="w-100">
 								<img alt="Avatar" src="<%=item.getValue().getBook().getImage()%>"
-									 class="float-left mb-3 mr-3" style="width: 55px; height: 75px">
+									 class="float-left mb-3 mr-3 book-image">
 								 <div class="row float-left" style="margin-top: 0.5rem; width: 90%;">
 								 	<div class="col-sm-12 col-md-5">
 								 		<h6>Tên sách</h6>

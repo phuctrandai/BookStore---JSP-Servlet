@@ -102,38 +102,21 @@ body {
 	#topNav .icon { display: inline-block; }
 }
 /*========== Content ===========*/
-#contentView {
-	width:75%;
-	float: right;
-	margin-bottom: 48px;
-}
 .book-col {
 	transition: 0.25s;
 }
 .book-col:hover {
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.bookImage {
-	border: 1px;
-	border-style: double;
-	boder-color: darkgrey;
-	height: 48px;
-	padding: 2px;
-	width: 48px;
-}
+
 
 /*========== Cart ============*/
-#cartContent {
-	width: 70%;
-	float: right;
-	margin: 0px 30px;
-}
-.itemInfo {
-	margin: 0px;
-	display: inline-block;
-}
-.order {
-	color: #F4B344;
+.book-image {
+	border: 1px;
+	border-style: double;
+	height: 60px;
+	padding: 2px;
+	width: 48px;
 }
 
 /*=========== Category sidebar========*/
@@ -164,13 +147,13 @@ body {
 }
 
 /* =============== Login page =============== */
-#loginContent {
-	margin: 30px 18rem 30px 0;
-	width: 50%;
-	float: right;
+
+
+/* =============== Class =============*/
+.ml-20 {
+	margin-left: 12rem;
 }
 
-/* =============== Bill page =============*/
 .w-10 {
 	width: 10%;
 }

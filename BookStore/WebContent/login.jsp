@@ -10,19 +10,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Đăng nhập - Đăng ký</title>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-
-<link href="https://fonts.googleapis.com/css?family=K2D|Oswald"
-	rel="stylesheet">
-
-<link rel="stylesheet" href="./css/style.css">
-</head>
+	<title>Đăng nhập - Đăng ký</title>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	
+	<link href="https://fonts.googleapis.com/css?family=K2D|Oswald"
+		rel="stylesheet">
+	
+	<link rel="stylesheet" href="./css/style.css">
+	</head>
 <body>
 
 	<jsp:include page="header.jsp"></jsp:include>

@@ -142,6 +142,7 @@ public class BillDao {
 			connectDB.executeUpdate(query, new Object[] { customerId, ngayMua, false });
 			result.close();
 		}
+		// Luu chi tiet hoa don
 		for (Map.Entry<String, Item> i : items.entrySet()) {
 			insert(i.getKey(), i.getValue().getQuantity(), customerId);
 		}
@@ -171,7 +172,7 @@ public class BillDao {
 		ConnectDB connectDB = new ConnectDB();
 		connectDB.Connect();
 
-		String query = "UPDATE HoaDon SET DaThanhToan = 1, NgayMua = ? WHERE MaKhachHang = ?";
+		String query = "UPDATE HoaDon SET DaThanhToan = 1, NgayMua = ? WHERE MaKhachHang = ? AND DaThanhToan = 0";
 		int result = connectDB.executeUpdate(query, new Object[] { dOP, customerId });
 		connectDB.Disconnect();
 		return result > 0;
