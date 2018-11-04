@@ -39,34 +39,34 @@
 			<div class="card w-100 mt-3 shadow">
 				<div class="card-header">
 					<div class="w-100">
+						<table class="w-100">
+							<tr>
+								<td>Mã hóa đơn</td>
+								<td>Ngày lập</td>
+								<td class="w-20">Trạng thái</td>
+								<td>Tổng tiền</td>
+								<td class="w-30"></td>
+							</tr>
 						
-							<div class="row">
-								<div class="col-md-2">Mã hóa đơn</div>
-								<div class="col-sm-12 col-md-2">Ngày lập</div>
-								<div class="col-sm-12 col-md-2">Trạng thái</div>
-								<div class="col-sm-12 col-md-2">Tổng tiền</div>
-								<div class="col-sm-12 col-md-4"></div>
-							</div>
-						
-							<div class="row">
-								<div class="col-sm-12 col-md-2 text-dark"><%=billList.get(i).getId()%></div>
-								<div class="col-sm-12 col-md-2 text-dark"><%=billList.get(i).getDOP() %></div>
-								<div class="col-sm-12 col-md-2">
+							<tr>
+								<td><%=billList.get(i).getId()%></td>
+								<td><%=billList.get(i).getDOP() %></td>
+								<td class="w-20">
 									<%if(billList.get(i).isPaid()) out.print("<span class='text-success'>Đã thanh toán</span>"); 	
 									else out.print("<span class='text-danger'>Chưa thanh toán</span>"); %>
-								</div>
-								<div class="col-sm-12 col-md-2 text-success"><%=nf.format(billList.get(i).getTotalPrice()) %></div>
-								<div class="col-sm-12 col-md-4">
+								</td>
+								<td class="text-success"><%=nf.format(billList.get(i).getTotalPrice()) %></td>
+								<td class="w-30">
 									<a class="float-left" data-toggle="collapse" href="#collapse<%=i%>">
 							         	Xem chi tiết
 						        	</a>
 									<a class="ml-5 float-right" href="bill?command=delete&billId=<%=billList.get(i).getId()%>">Xóa</a>
 									<%if(!billList.get(i).isPaid()) {%>
-										<a class="ml-5 float-right" href="bill?command=pay&billId=<%=billList.get(i).getId()%>">Thanh toán</a>
+										<a class="float-right" href="bill?command=pay&billId=<%=billList.get(i).getId()%>">Thanh toán</a>
 									<%} %>
-								</div>
-							</div>
-						
+								</td>
+							</tr>
+						</table>
 					</div>
 				</div>
 				<div id="collapse<%=i%>" class="collapse" data-parent="#accordion">
