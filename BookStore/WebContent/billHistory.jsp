@@ -44,19 +44,19 @@
 								<td>Mã hóa đơn</td>
 								<td>Ngày lập</td>
 								<td class="w-20">Trạng thái</td>
-								<td>Tổng tiền</td>
+								<td class="w-12">Tổng tiền</td>
 								<td class="w-30"></td>
 							</tr>
 						
 							<tr>
 								<td><%=billList.get(i).getId()%></td>
 								<td><%=billList.get(i).getDOP() %></td>
-								<td class="w-20">
+								<td>
 									<%if(billList.get(i).isPaid()) out.print("<span class='text-success'>Đã thanh toán</span>"); 	
 									else out.print("<span class='text-danger'>Chưa thanh toán</span>"); %>
 								</td>
 								<td class="text-success"><%=nf.format(billList.get(i).getTotalPrice()) %></td>
-								<td class="w-30">
+								<td>
 									<a class="float-left" data-toggle="collapse" href="#collapse<%=i%>">
 							         	Xem chi tiết
 						        	</a>
@@ -71,38 +71,36 @@
 				</div>
 				<div id="collapse<%=i%>" class="collapse" data-parent="#accordion">
 					<div class="card-body">
+						<table class="w-100">
 						<%
 						HashMap<String, Item> items = billList.get(i).getItems();
 						for(Map.Entry<String, Item> item : items.entrySet()) {%>
-							<div class="w-100">
-								<img alt="Avatar" src="<%=item.getValue().getBook().getImage()%>"
-									 class="float-left mb-3 mr-3 book-image">
-								 <div class="row float-left" style="margin-top: 0.5rem; width: 90%;">
-								 	<div class="col-sm-12 col-md-5">
-								 		<h6>Tên sách</h6>
+							<tr>
+								<td class="w-40">
+									<img alt="Avatar" src="<%=item.getValue().getBook().getImage()%>"
+									 class="float-left 	mb-3 mr-3 book-image">
+									 <div class="float-left">
 								 		<p class=""><%=item.getValue().getBook().getName() %></p>	
+								 		<p class="text-success"><%=nf.format(item.getValue().getBook().getPrice())%></p>
 								 	</div>
-									<div class="col-sm-12 col-md-2">
-										<h6>Giá bán</h6>
-										<p><%=nf.format(item.getValue().getBook().getPrice())%></p>
-									</div>
-									<div class="col-sm-12 col-md-2" style="text-align: center;">
-										<h6>Số lượng</h6>
-										<p class=""><%=item.getValue().getQuantity() %></p>
-									</div>
-									<div class="col-sm-12 col-md-2">
-										<h6>Thành tiền</h6>
-										<p class=""><%=nf.format(item.getValue().getBook().getPrice() * item.getValue().getQuantity())%></p>
-									</div>
-									<div class="col-sm-12 col-md-1">
-										<%if(!billList.get(i).isPaid()) {%>
-											<a href="bill?command=removeBook&billId=<%=billList.get(i).getId()%>&bookId=<%=item.getKey()%>">Trả lại</a>
-										<%} %>
-									</div>
-								 </div>
-							</div>
-							<div class="clearfix"></div>				
+								 </td>
+								 <td class="w-10">
+								 	<label class="mr-3">x</label>
+								 	<label class=""><b><%=item.getValue().getQuantity() %></b></label>
+								 	<label class="ml-3"><b>=</b></label>
+								 </td>
+								 <td class="w-25 text-center">
+								 	<p class="text-success"><%=nf.format(item.getValue().getBook().getPrice() * item.getValue().getQuantity())%></p>
+								 </td>
+								 <td class="float-right">
+								 	<%if(!billList.get(i).isPaid()) {%>
+										<a href="bill?command=removeBook&billId=<%=billList.get(i).getId()%>&bookId=<%=item.getKey()%>">Trả lại</a>
+									<%} %>
+								 </td>
+							</tr>
+										
 						<%} %>
+						</table>
 					</div>
 				</div>
 			</div>

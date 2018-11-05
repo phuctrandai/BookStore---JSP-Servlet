@@ -154,8 +154,15 @@ body {
 	margin-left: 12rem;
 }
 
+/* Width */
 .w-10 {
 	width: 10%;
+}
+.w-12 {
+	width: 12%;
+}
+.w-15 {
+	width: 15%;
 }
 .w-20 {
 	width: 20%;
@@ -163,6 +170,14 @@ body {
 .w-30 {
 	width: 30%;
 }
+.w-40 {
+	width: 40%;
+}
+.w-45 {
+	width: 45%;
+}
 
-
+.text-center {
+	text-align: center;
+}
 
