@@ -31,7 +31,7 @@ $(document).ready(function(){
         e.preventDefault();
         $.post('bill',
         {
-            updateBtn : "updateBtn",
+            update : "update",
             command : "modify",
             bookId : bookId,
             itemQuantity : itemQuantity
@@ -46,7 +46,7 @@ $(document).ready(function(){
         var bookId = $(this).attr("id");
         e.preventDefault();
         $.post('bill',
-        {   removeBtn : "removeBtn",
+        {   remove : "remove",
             command : "modify",
             bookId : bookId
         }, function(data, status) {

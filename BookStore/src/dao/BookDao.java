@@ -157,7 +157,7 @@ public class BookDao {
 			params = new Object[] { categoryId };
 		}
 		int result = (int) connectDB.executeScalar(query, params);
-		
+		connectDB.Disconnect();
 		return result;
 	}
 	
@@ -170,5 +170,22 @@ public class BookDao {
 	 */
 	public int getTotalBook() throws ClassNotFoundException, SQLException {
 		return getTotalBook("");
+	}
+	
+	/**
+	 * Lấy tổng số lượng sách theo tu khoa
+	 * 
+	 * @return int
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public int getTotalBookByKeyWord(String keyword) throws SQLException, ClassNotFoundException {
+		connectDB.Connect();
+		int result = 0;
+		
+		
+		
+		connectDB.Disconnect();
+		return result;
 	}
 }

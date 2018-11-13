@@ -174,14 +174,14 @@ public class BillController extends HttpServlet {
 	 * Cập nhật hóa đơn
 	 */
 	private void updateBill(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ClassNotFoundException, SQLException {
+			throws IOException, ClassNotFoundException, SQLException, ServletException {
 		Bill bill = (Bill) request.getSession().getAttribute("bill");
 		BillBo billBo = new BillBo(bill);
 		int customerId = -1;
 		String bookId = request.getParameter("bookId");
 				
 		// Cập nhật số lượng sách trong hóa đơn
-		if (request.getParameter("updateBtn") != null) {
+		if (request.getParameter("update") != null) {
 			int itemQuantity = Integer.parseInt(request.getParameter("itemQuantity"));
 			if(request.getSession().getAttribute("customer") == null) {
 				billBo.updateQuantity(bookId, itemQuantity, false, customerId);
@@ -193,7 +193,7 @@ public class BillController extends HttpServlet {
 			}
 		}
 		// Xóa sách khỏi hóa đơn
-		else if (request.getParameter("removeBtn") != null) {
+		else if (request.getParameter("remove") != null) {
 			if(request.getSession().getAttribute("customer") == null) {
 				billBo.removeBook(0, bookId, false);
 			} else {

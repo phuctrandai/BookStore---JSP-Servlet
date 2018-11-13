@@ -35,6 +35,7 @@
 			</div>
 		</div>
 		<%}%>
+		
 		<!-- Pagination -->
 		<div class="container">
 			<ul class="pagination justify-content-center mt-3 ml-20 w-50">
@@ -44,22 +45,22 @@
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			
 			int totalPage = (int) request.getAttribute("totalPage");
+			String categoryId = request.getParameter("categoryId");
 			
 			if (totalPage != 0) {
 				for(int j=1 ; j<=totalPage ; j++) {%>
 		    	
 		    	<li class="page-item  <%if(pageNumber == j) out.print("active"); %>">
-		    		<a class="page-link" href="home?pageNumber=<%=j%>"><%=j %></a>
+		    		<a class="page-link" href="home?categoryId=<%=categoryId%>&pageNumber=<%=j%>"><%=j %></a>
 	    		</li>
 				
 				<%}
 			}%>
 			</ul>
-		</div>
-	</div>
-	
+		</div>	
 	<%
 	} else {%>
 		<h2 style="margin: 30px">Loại sách này hiện chưa có !</h2>
 	<%} %>
+	</div>
 

@@ -26,7 +26,7 @@ import bo.CategoryBo;
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	public final int BOOK_PER_PAGE = 24;
+	public final int BOOK_PER_PAGE = 12;
 
 	private CategoryBo categoryBo = null;
 	private BookBo bookBo = null;
@@ -154,15 +154,11 @@ public class HomeController extends HttpServlet {
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
 		
 		// Tiêu chí tìm kiếm
-		//String optionSearch = request.getParameter("optionSearch");
 		String keyWord = request.getParameter("keyWord");
 		HashMap<String, Book> bookList = null;
 		
 		if(keyWord != "") {
-			// Tìm theo tựa/tên sách
-		//	if (optionSearch.equals("0")) {	
-				bookList = bookBo.findByName(keyWord);
-			//}
+			bookList = bookBo.findByName(keyWord);
 		}
 		
 		if(bookList != null) {

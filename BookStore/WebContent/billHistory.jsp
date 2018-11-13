@@ -76,7 +76,7 @@
 						HashMap<String, Item> items = billList.get(i).getItems();
 						for(Map.Entry<String, Item> item : items.entrySet()) {%>
 							<tr>
-								<td class="w-40">
+								<td class="" style="width: 370px;">
 									<img alt="Avatar" src="<%=item.getValue().getBook().getImage()%>"
 									 class="float-left 	mb-3 mr-3 book-image">
 									 <div class="float-left">
@@ -84,19 +84,15 @@
 								 		<p class="text-success"><%=nf.format(item.getValue().getBook().getPrice())%></p>
 								 	</div>
 								 </td>
-								 <td class="w-10">
+								 <td class="" style="width: 100px;">
 								 	<label class="mr-3">x</label>
 								 	<label class=""><b><%=item.getValue().getQuantity() %></b></label>
 								 	<label class="ml-3"><b>=</b></label>
 								 </td>
-								 <td class="w-25 text-center">
+								 <td class="" style="width: 265px; text-align: center;">
 								 	<p class="text-success"><%=nf.format(item.getValue().getBook().getPrice() * item.getValue().getQuantity())%></p>
 								 </td>
-								 <td class="float-right">
-								 	<%if(!billList.get(i).isPaid()) {%>
-										<a href="bill?command=removeBook&billId=<%=billList.get(i).getId()%>&bookId=<%=item.getKey()%>">Trả lại</a>
-									<%} %>
-								 </td>
+								 <td></td>
 							</tr>
 										
 						<%} %>

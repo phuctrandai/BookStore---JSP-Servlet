@@ -24,6 +24,8 @@
 	
 	<jsp:include page="content.jsp"></jsp:include>
 	
+	<jsp:include page="footer.jsp"></jsp:include>
+	
 	<!-- Scroll to top -->
 	<button id="scrollToTopBtn" class="btn btn-danger" title="Về đầu trang">
 		<i class="fa fa-chevron-circle-up" style="font-size:24px;"></i>
